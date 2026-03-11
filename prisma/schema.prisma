@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum PlayingLevel {
@@ -44,24 +43,24 @@ enum EventCategory {
 }
 
 model User {
-  id               String              @id @default(cuid())
-  name             String?
-  email            String              @unique
-  emailVerified    DateTime?
-  image            String?
-  passwordHash     String?
-  phone            String?
-  playingLevel     PlayingLevel?
-  preferredTime    PreferredTime?
-  membershipPlan   MembershipPlan?
-  membershipStatus String?
+  id                String              @id @default(cuid())
+  name              String?
+  email             String              @unique
+  emailVerified     DateTime?
+  image             String?
+  passwordHash      String?
+  phone             String?
+  playingLevel      PlayingLevel?
+  preferredTime     PreferredTime?
+  membershipPlan    MembershipPlan?
+  membershipStatus  String?
   membershipRenewal DateTime?
-  createdAt        DateTime            @default(now())
-  updatedAt        DateTime            @updatedAt
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
 
-  accounts         Account[]
-  sessions         Session[]
-  registrations    EventRegistration[]
+  accounts      Account[]
+  sessions      Session[]
+  registrations EventRegistration[]
 }
 
 model Account {
@@ -102,55 +101,34 @@ model VerificationToken {
 
 model ContactInquiry {
   id        String       @id @default(cuid())
-  fullName  String
+  name      String
   email     String
+  phone     String?
   topic     ContactTopic
   message   String
   createdAt DateTime     @default(now())
 }
 
-model MembershipApplication {
-  id             String         @id @default(cuid())
-  fullName       String
-  email          String
-  phone          String
-  playingLevel   PlayingLevel
-  preferredPlan  MembershipPlan
-  preferredTime  PreferredTime
-  notes          String?
-  createdAt      DateTime       @default(now())
-}
-
-model NewsletterSubscription {
-  id           String       @id @default(cuid())
-  email        String       @unique
-  name         String?
-  playingLevel PlayingLevel?
-  createdAt    DateTime     @default(now())
-}
-
 model Event {
-  id              String            @id @default(cuid())
-  slug            String            @unique
-  title           String
-  description     String?
-  startsAt        DateTime
-  durationMinutes Int
-  category        EventCategory
-  level           String
-  feeINR          Int
-  capacity        Int
-  location        String
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  category    EventCategory
+  startAt     DateTime
+  endAt       DateTime?
+  location    String?
+  capacity    Int?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
-  registrations   EventRegistration[]
+  registrations EventRegistration[]
 }
 
 model EventRegistration {
   id        String   @id @default(cuid())
   userId    String
   eventId   String
+  status    String?
   createdAt DateTime @default(now())
 
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
