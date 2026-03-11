@@ -1,26 +1,30 @@
 "use client";
-
-interface Stat {
-  value: string;
-  label: string;
-}
+import * as React from "react";
 
 interface StatsCounterProps {
-  stats: Stat[];
-  bgColor?: string;
+  stats?: { value: string; label: string }[];
 }
 
 export default function StatsCounter({
   stats = [],
-  bgColor = '',
-}: Partial<StatsCounterProps>) {
+}: StatsCounterProps) {
   return (
-    <section className={'py-16 ' + (bgColor || 'bg-primary text-primary-foreground')}>
-      <div className="container mx-auto max-w-7xl px-4">
-        <div className={'grid gap-8 text-center ' + ('grid-cols-2 md:grid-cols-' + Math.min(stats.length || 2, 4))}>
-          {stats.map(function(stat, i) {
-            return <div key={i}><p className="text-4xl font-bold md:text-5xl">{stat.value}</p><p className="mt-2 text-sm uppercase tracking-wider opacity-80">{stat.label}</p></div>;
-          })}
+    <section className="py-20 md:py-28 bg-muted/50">
+      <div className="mx-auto max-w-5xl px-4">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-3 text-center">
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="rounded-xl border bg-card p-8 shadow-sm"
+            >
+              <span className="text-4xl md:text-5xl font-extrabold text-primary">
+                {stat.value}
+              </span>
+              <p className="mt-2 text-muted-foreground text-sm md:text-base font-medium">
+                {stat.label}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -2,11 +2,13 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-const Skeleton = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("animate-pulse rounded bg-muted", className)}
+      className={cn("animate-pulse rounded-md bg-muted", className)}
       role="status"
       aria-busy="true"
       {...props}

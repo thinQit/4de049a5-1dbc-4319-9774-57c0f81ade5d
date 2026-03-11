@@ -1,15 +1,21 @@
 export const dynamic = 'force-dynamic';
 
-import HeroSection from '@/components/HeroSection'
-import BlogList from '@/components/BlogList'
-import CTABanner from '@/components/CTABanner'
+import HeroSection from "@/components/HeroSection";
+import BlogPostCard from "@/components/BlogPostCard";
+import CTASection from "@/components/CTASection";
 
 export default function BlogPage() {
   return (
     <main>
       <HeroSection />
-      <BlogList />
-      <CTABanner headline="Want monthly updates in your inbox?" ctaLabel="Subscribe" ctaHref="/newsletter" />
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-7xl grid gap-6 md:gap-8 md:grid-cols-3 px-4">
+          <BlogPostCard />
+          <BlogPostCard />
+          <BlogPostCard />
+        </div>
+      </section>
+      <CTASection />
     </main>
-  )
+  );
 }

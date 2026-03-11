@@ -16,8 +16,8 @@ interface FooterMultiColumnProps {
 }
 
 export default function FooterMultiColumn({
-  brand = 'Ignite Night',
-  description = 'The immersive event where innovation, culture, and community collide.',
+  brand = 'PulseFest',
+  description = 'The city’s most immersive music, tech, and culture event. Join thousands for unforgettable stages, speakers, and experiences.',
   columns = [],
   copyright,
 }: Partial<FooterMultiColumnProps>) {
@@ -32,7 +32,7 @@ export default function FooterMultiColumn({
           {columns.map(function(col) {
             return (
               <div key={col.title}>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-amber-300">{col.title}</h4>
+                <h4 className="text-sm font-semibold uppercase tracking-wider">{col.title}</h4>
                 <ul className="mt-4 space-y-3">
                   {col.links.map(function(link) {
                     return (

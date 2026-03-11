@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { cn } from "@/lib/utils";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -12,63 +11,60 @@ interface SignupFormProps {
 }
 
 export default function SignupForm({
-  title = "Create your member account",
-  subtitle = "Register to manage event sign-ups and membership details.",
+  title = "Create your Anand Tennis Club account",
+  subtitle = "Register for events, manage membership, and access club features.",
   showSocialLogin = false,
-}: SignupFormProps) {
-  const [email, setEmail] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
+}: Partial<SignupFormProps>) {
+  const [state, setState] = useState<"idle" | "submitting" | "success" | "error">(
+    "idle"
+  );
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
-    // Simulate or trigger email registration flow (magic-link).
-    // In production: use NextAuth signIn("email", { email })
+    setState("submitting");
+    setErrorMsg("");
+    const data = new FormData(e.currentTarget);
+    // Replace with real API or NextAuth sign-up logic
     setTimeout(() => {
-      setIsSuccess(true);
-      setLoading(false);
-    }, 1000);
-  };
+      setSuccessMsg("Account created (mock implementation).");
+      setState("success");
+    }, 900);
+  }
 
   return (
     <form
+      className="space-y-6 rounded-xl border p-8 bg-card"
       onSubmit={handleSubmit}
-      className={cn("mx-auto max-w-md rounded-2xl border border-white/10 bg-white/5 p-8")}
-      aria-labelledby="signup-form-title"
     >
-      <h2 id="signup-form-title" className="mb-2 text-2xl font-bold text-white">{title}</h2>
-      {subtitle && <p className="mb-6 text-white/80">{subtitle}</p>}
-      {isSuccess ? (
-        <div className="rounded border border-green-600 bg-green-50 p-4 text-green-900">
-          Check your inbox for a sign-in link!
-        </div>
-      ) : (
-        <>
-          <Label htmlFor="register-email" className="text-white">Email</Label>
-          <Input
-            id="register-email"
-            type="email"
-            required
-            className="mt-2"
-            placeholder="you@email.com"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            disabled={loading}
-          />
-          <Button
-            type="submit"
-            className="mt-6 w-full bg-[#4f46e5]"
-            disabled={loading || !email}
-          >
-            {loading ? "Sending link..." : "Continue with Email"}
-          </Button>
-          {/* Social login could be implemented here */}
-        </>
+      <h3 className="text-xl font-bold">{title}</h3>
+      <p className="text-muted-foreground">{subtitle}</p>
+      <div>
+        <Label htmlFor="name">Full Name</Label>
+        <Input id="name" name="name" type="text" required autoComplete="name" />
+      </div>
+      <div>
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" name="email" type="email" required autoComplete="email" />
+      </div>
+      <div>
+        <Label htmlFor="password">Password</Label>
+        <Input id="password" name="password" type="password" required autoComplete="new-password" />
+      </div>
+      <Button
+        className="w-full bg-[#5B21B6] hover:bg-[#4a1ba0]"
+        type="submit"
+        disabled={state === "submitting"}
+      >
+        {state === "submitting" ? "Creating..." : "Create Account"}
+      </Button>
+      {state === "success" && (
+        <p className="text-green-600 text-sm mt-2">{successMsg}</p>
       )}
-      <p className="mt-4 text-sm text-white/60 text-center">
-        Already have an account? <a href="/login" className="underline hover:text-[#FFD700]">Sign in</a>
-      </p>
+      {state === "error" && (
+        <p className="text-red-600 text-sm mt-2">{errorMsg}</p>
+      )}
     </form>
   );
 }

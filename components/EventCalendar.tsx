@@ -1,35 +1,25 @@
-"use client";
+'use client'
 
-import { Badge } from '@/components/ui/badge'
+import { useState } from 'react'
 import { Select } from '@/components/ui/select'
+import EventCard from '@/components/EventCard'
 
-interface EventCalendarProps {
-  month?: string
-  events?: { date: string; title: string; type: string }[]
-}
-
-export default function EventCalendar({
-  month = 'January 2026',
-  events = [
-    { date: '03', title: 'Junior Open', type: 'Tournament' },
-    { date: '12', title: 'Night Rally', type: 'Social' },
-    { date: '22', title: 'Coach Masterclass', type: 'Workshop' },
-  ],
-}: Partial<EventCalendarProps>) {
+export default function EventCalendar() {
+  const [filter] = useState('All')
   return (
-    <section className="py-20">
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-2xl font-bold text-white">{month}</h3>
-        <Select />
-      </div>
-      <div className="grid gap-4 md:grid-cols-3">
-        {events.map((event) => (
-          <div key={event.date + event.title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="text-3xl font-black text-[#FFD700]">{event.date}</div>
-            <p className="mt-2 font-semibold text-white">{event.title}</p>
-            <Badge className="mt-2 bg-[#5B21B6] text-white">{event.type}</Badge>
-          </div>
-        ))}
+    <section className="py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-3xl font-extrabold">Event Calendar</h2>
+          <Select>
+            <option>{filter}</option>
+          </Select>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <EventCard />
+          <EventCard title="Junior Skills Camp" level="Beginner" fee="₹799" />
+          <EventCard title="Night Rally Challenge" level="Advanced" fee="₹999" />
+        </div>
       </div>
     </section>
   )

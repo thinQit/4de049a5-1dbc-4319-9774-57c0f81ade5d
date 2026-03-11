@@ -1,40 +1,21 @@
 "use client";
 
-import type { Metadata } from 'next'
-
 interface SEOHeadProps {
   title?: string
   description?: string
-  canonicalUrl?: string
-  image?: string
 }
 
 export default function SEOHead({
-  title = 'Anand Tennis Club | Wimbledon Green Experience',
-  description = 'Anand Tennis Club offers modern courts, monthly events, memberships, and coaching inspired by Wimbledon standards.',
-  canonicalUrl = 'https://anandtennisclub.com',
-  image = 'https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_675,g_auto/v1/site-images/corporate/default.jpg',
+  title = 'Home',
+  description = 'Anand Tennis Club official website for events, membership, and club updates.',
 }: Partial<SEOHeadProps>) {
-  const metadata: Metadata = {
-    title,
-    description,
-    alternates: { canonical: canonicalUrl },
-    openGraph: {
-      title,
-      description,
-      url: canonicalUrl,
-      siteName: 'Anand Tennis Club',
-      images: [{ url: image, width: 1600, height: 900 }],
-      type: 'website',
-    },
-  }
-
+  const fullTitle = title.includes('Anand Tennis Club') ? title : title + ' | Anand Tennis Club'
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(metadata),
-      }}
-    />
+    <>
+      <title>{fullTitle}</title>
+      <meta name="description" content={description} />
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={description} />
+    </>
   )
 }

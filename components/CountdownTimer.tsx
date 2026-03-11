@@ -1,46 +1,50 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { cn } from '@/lib/utils'
 
 interface CountdownTimerProps {
   targetDate?: string
-  label?: string
+  title?: string
 }
 
 export default function CountdownTimer({
-  targetDate = '2026-01-15T09:00:00',
-  label = 'Next Featured Event Starts In',
+  targetDate = '2026-12-01T10:00:00',
+  title = 'Countdown to Anand Open Championship',
 }: Partial<CountdownTimerProps>) {
-  const [time, setTime] = useState({ d: 0, h: 0, m: 0, s: 0 })
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
   useEffect(() => {
-    const id = setInterval(() => {
-      const diff = Math.max(new Date(targetDate).getTime() - Date.now(), 0)
-      setTime({
-        d: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        h: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        m: Math.floor((diff / (1000 * 60)) % 60),
-        s: Math.floor((diff / 1000) % 60),
-      })
+    const timer = setInterval(() => {
+      const diff = new Date(targetDate).getTime() - Date.now()
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)))
+      const hours = Math.max(0, Math.floor((diff / (1000 * 60 * 60)) % 24))
+      const minutes = Math.max(0, Math.floor((diff / (1000 * 60)) % 60))
+      const seconds = Math.max(0, Math.floor((diff / 1000) % 60))
+      setTimeLeft({ days, hours, minutes, seconds })
     }, 1000)
-    return () => clearInterval(id)
+    return () => clearInterval(timer)
   }, [targetDate])
 
+  const items = [
+    { label: 'Days', value: timeLeft.days },
+    { label: 'Hours', value: timeLeft.hours },
+    { label: 'Minutes', value: timeLeft.minutes },
+    { label: 'Seconds', value: timeLeft.seconds },
+  ]
+
   return (
-    <section className="py-20 text-center">
-      <p className="mb-8 text-sm uppercase tracking-[0.2em] text-[#FFD700]">{label}</p>
-      <div className="mx-auto grid max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
-        {[
-          { key: 'Days', value: time.d },
-          { key: 'Hours', value: time.h },
-          { key: 'Minutes', value: time.m },
-          { key: 'Seconds', value: time.s },
-        ].map((item) => (
-          <div key={item.key} className="rounded-2xl border border-white/15 bg-white/5 p-6">
-            <div className="text-5xl font-black text-white md:text-6xl">{String(item.value).padStart(2, '0')}</div>
-            <div className="mt-2 text-xs uppercase tracking-widest text-[#FFD700]">{item.key}</div>
-          </div>
-        ))}
+    <section className="py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 text-center md:px-6">
+        <h2 className="text-3xl font-extrabold text-[#0f3d2e] md:text-5xl">{title}</h2>
+        <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
+          {items.map((item) => (
+            <div key={item.label} className={cn('rounded-xl border bg-white p-6 shadow-sm')}>
+              <p className="text-4xl font-extrabold text-[#5B21B6] md:text-6xl">{String(item.value).padStart(2, '0')}</p>
+              <p className="mt-2 text-sm uppercase tracking-wide text-muted-foreground">{item.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

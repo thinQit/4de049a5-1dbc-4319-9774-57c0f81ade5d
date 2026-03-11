@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Sparkles, Globe, Shield, Star, Zap, Heart, Trophy, Users, Medal } from 'lucide-react';
+import { Mic, Calendar, Ticket, MapPin, Sparkles, Users } from 'lucide-react';
 
 interface Feature {
   icon: string;
@@ -17,13 +17,14 @@ interface FeaturesGridProps {
   features: Feature[];
 }
 
+const iconMap: Record<string, React.ElementType> = { Mic, Calendar, Ticket, MapPin, Sparkles, Users };
+
 export default function FeaturesGrid({
-  badge = 'Why Attend',
-  headline = 'A high-energy event experience',
-  subheadline = 'Discover what makes Ignite Night the most talked-about event of the year.',
+  badge = 'Event Highlights',
+  headline = 'Everything You Need for an Epic Event Weekend',
+  subheadline = 'From headline speakers to immersive after-hours experiences.',
   features = [],
 }: Partial<FeaturesGridProps>) {
-  const iconMap: Record<string, React.ElementType> = { Trophy, Users, Medal,  Sparkles, Globe, Shield, Star, Zap, Heart };
   return (
     <section className="py-20 md:py-28 bg-muted/50">
       <div className="container mx-auto max-w-7xl px-4">
@@ -34,9 +35,9 @@ export default function FeaturesGrid({
         </div>
         <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {features.map(function(feature, index) {
-            const Icon = iconMap[feature.icon] || Star;
+            const Icon = iconMap[feature.icon] || Sparkles;
             return (
-              <Card key={index} className="border-0 bg-background shadow-md hover:shadow-lg transition-shadow">
+              <Card key={index} className="border border-border bg-card shadow-sm hover:shadow-md transition-shadow rounded-xl">
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     {React.createElement(Icon, { className: 'h-6 w-6' })}

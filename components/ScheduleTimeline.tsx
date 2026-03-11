@@ -1,32 +1,38 @@
 "use client";
 
+import { Badge } from '@/components/ui/badge'
+
+interface Item {
+  time: string
+  title: string
+  detail: string
+}
+
 interface ScheduleTimelineProps {
-  schedule?: { day: string; slots: string[] }[]
+  items?: Item[]
 }
 
 export default function ScheduleTimeline({
-  schedule = [
-    { day: 'Monday', slots: ['6:00 AM Conditioning', '5:00 PM Junior Drills'] },
-    { day: 'Wednesday', slots: ['7:00 AM Open Rally', '6:30 PM Match Play'] },
-    { day: 'Friday', slots: ['5:30 PM Pro Clinic', '8:00 PM Social Doubles'] },
-    { day: 'Sunday', slots: ['8:00 AM Tournament Prep', '6:00 PM Recovery Stretch'] },
+  items = [
+    { time: '08:00', title: 'Warm-Up & Registration', detail: 'Court check-in and welcome briefing.' },
+    { time: '09:00', title: 'Singles Qualifiers', detail: 'Fast-paced knockout qualifiers begin.' },
+    { time: '12:30', title: 'Doubles Showcase', detail: 'Featured pairs compete on center court.' },
   ],
 }: Partial<ScheduleTimelineProps>) {
   return (
-    <section className="py-20">
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {schedule.map((day) => (
-          <div key={day.day} className="relative rounded-2xl border border-white/10 bg-[#102D21] p-5">
-            <div className="mb-4 text-lg font-bold text-[#FFD700]">{day.day}</div>
-            <div className="space-y-3">
-              {day.slots.map((slot) => (
-                <div key={slot} className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm text-white/85">
-                  {slot}
-                </div>
-              ))}
+    <section className="py-20 md:py-28">
+      <div className="mx-auto max-w-4xl px-4 md:px-6">
+        <h2 className="text-3xl font-extrabold">Schedule Timeline</h2>
+        <div className="mt-8 space-y-6">
+          {items.map((item, i) => (
+            <div key={item.time + item.title} className="relative rounded-xl border bg-white p-5">
+              <Badge className="bg-[#0f3d2e] text-white">{item.time}</Badge>
+              <h3 className="mt-3 font-semibold">{item.title}</h3>
+              <p className="text-sm text-muted-foreground">{item.detail}</p>
+              {i < items.length - 1 ? <div className="absolute -bottom-6 left-7 h-6 w-px bg-border" /> : null}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   )
