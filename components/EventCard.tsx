@@ -1,44 +1,34 @@
-'use client'
+"use client";
 
 import Link from 'next/link'
-import { CalendarDays, Clock3 } from 'lucide-react'
+import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 interface EventCardProps {
-  date?: string
-  time?: string
   title?: string
-  description?: string
-  tag?: string
-  href?: string
+  date?: string
+  type?: string
+  price?: string
+  registerHref?: string
 }
 
 export default function EventCard({
-  date = '14 Jul 2026',
-  time = '18:30',
-  title = 'Evening Grass Court Open',
-  description = 'A competitive mixed-level draw with post-match clubhouse reception.',
-  tag = 'Tournament',
-  href = '/events',
+  title = 'Sunset Doubles Showdown',
+  date = 'Feb 14, 2026',
+  type = 'Tournament',
+  price = '$25',
+  registerHref = '/event-registration',
 }: Partial<EventCardProps>) {
   return (
-    <Card className='rounded-2xl'>
-      <CardHeader>
-        <Badge className='w-fit bg-[#DDF5E2] text-[#0F4D2C]'>{tag}</Badge>
-        <CardTitle className='mt-3 text-xl'>{title}</CardTitle>
-      </CardHeader>
-      <CardContent className='space-y-2 text-sm text-muted-foreground'>
-        <div className='flex items-center gap-2'><CalendarDays className='h-4 w-4' />{date}</div>
-        <div className='flex items-center gap-2'><Clock3 className='h-4 w-4' />{time}</div>
-        <p>{description}</p>
-      </CardContent>
-      <CardFooter>
-        <Button asChild variant='outline' className='rounded-xl'>
-          <Link href={href}>Learn More</Link>
-        </Button>
-      </CardFooter>
+    <Card className="rounded-2xl border border-white/10 bg-white/5 p-5">
+      <Badge className="bg-[#5B21B6] text-white">{type}</Badge>
+      <h4 className="mt-3 text-lg font-bold text-white">{title}</h4>
+      <p className="mt-1 text-sm text-white/75">{date}</p>
+      <p className="mt-3 text-[#FFD700] font-semibold">{price}</p>
+      <Link href={registerHref}>
+        <Button className="mt-4 w-full bg-[#FF6B6B]">Register</Button>
+      </Link>
     </Card>
   )
 }

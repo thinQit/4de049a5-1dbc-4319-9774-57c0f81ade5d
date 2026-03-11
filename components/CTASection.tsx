@@ -13,28 +13,20 @@ interface CTASectionProps {
 }
 
 export default function CTASection({
-  title = 'Ready to Play at Anand Tennis club?',
-  description = 'Join our vibrant Wimbledon-inspired community with tournaments, training, and elite facilities.',
-  primaryLabel = 'Start Membership',
-  primaryHref = '/membership',
+  title = 'Ready to Play at Anand Tennis Club?',
+  description = 'Join memberships, register for events, and experience modern Wimbledon energy.',
+  primaryLabel = 'Join Membership',
+  primaryHref = '/membership-signup',
   secondaryLabel = 'Contact Us',
   secondaryHref = '/contact',
 }: Partial<CTASectionProps>) {
   return (
-    <section className="py-20 md:py-28">
-      <div className="mx-auto max-w-5xl px-4 md:px-6">
-        <div className="rounded-2xl border-2 border-[#FFD700]/70 bg-emerald-800 p-10 text-center text-white">
-          <h2 className="text-3xl font-black md:text-4xl">{title}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-emerald-50">{description}</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Button asChild className="bg-[#FFD700] text-emerald-950 hover:bg-[#e8c200]">
-              <Link href={primaryHref}>{primaryLabel}</Link>
-            </Button>
-            <Button asChild variant="outline" className="border-white text-white hover:bg-white/10">
-              <Link href={secondaryHref}>{secondaryLabel}</Link>
-            </Button>
-          </div>
-        </div>
+    <section className="rounded-3xl border border-white/10 bg-gradient-to-r from-[#5B21B6] to-[#0B2A1E] p-8 text-center md:p-12">
+      <h3 className="text-3xl font-black text-white">{title}</h3>
+      <p className="mx-auto mt-3 max-w-2xl text-white/85">{description}</p>
+      <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <Link href={primaryHref}><Button className="bg-[#FFD700] text-[#0B2A1E]">{primaryLabel}</Button></Link>
+        <Link href={secondaryHref}><Button variant="outline" className="border-white/30 text-white">{secondaryLabel}</Button></Link>
       </div>
     </section>
   )

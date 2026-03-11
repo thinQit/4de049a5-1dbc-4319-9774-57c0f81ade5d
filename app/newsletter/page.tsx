@@ -1,13 +1,15 @@
 export const dynamic = 'force-dynamic';
 
-import HeroSection from "@/components/HeroSection";
-import NewsletterForm from "@/components/NewsletterForm";
+import HeroSection from '@/components/HeroSection'
+import NewsletterInlineForm from '@/components/NewsletterInlineForm'
+import CTASection from '@/components/CTASection'
 
 export default function NewsletterPage() {
   return (
-    <main className="bg-background text-foreground">
+    <main>
       <HeroSection />
-      <NewsletterForm />
+      <NewsletterInlineForm />
+      <CTASection />
     </main>
-  );
+  )
 }

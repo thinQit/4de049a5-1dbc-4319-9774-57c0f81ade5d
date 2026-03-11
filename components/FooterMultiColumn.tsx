@@ -16,8 +16,8 @@ interface FooterMultiColumnProps {
 }
 
 export default function FooterMultiColumn({
-  brand = 'Pulse Summit',
-  description = 'An immersive event experience featuring speakers, workshops, live showcases, and community connections.',
+  brand = 'Ignite Night',
+  description = 'The immersive event where innovation, culture, and community collide.',
   columns = [],
   copyright,
 }: Partial<FooterMultiColumnProps>) {
@@ -29,12 +29,12 @@ export default function FooterMultiColumn({
             <h3 className="text-lg font-bold">{brand}</h3>
             <p className="mt-3 text-sm text-background/70">{description}</p>
           </div>
-          {columns.map(function (col) {
+          {columns.map(function(col) {
             return (
               <div key={col.title}>
-                <h4 className="text-sm font-semibold uppercase tracking-wider">{col.title}</h4>
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-amber-300">{col.title}</h4>
                 <ul className="mt-4 space-y-3">
-                  {col.links.map(function (link) {
+                  {col.links.map(function(link) {
                     return (
                       <li key={link.href}>
                         <Link href={link.href} className="text-sm text-background/70 transition-colors hover:text-background">
@@ -50,7 +50,7 @@ export default function FooterMultiColumn({
         </div>
         <Separator className="my-8 bg-background/20" />
         <p className="text-center text-sm text-background/50">
-          {copyright || '\u00a9 ' + new Date().getFullYear() + ' ' + brand + '. All rights reserved.'}
+          {copyright || ('\u00a9 ' + new Date().getFullYear() + ' ' + brand + '. All rights reserved.')}
         </p>
       </div>
     </footer>

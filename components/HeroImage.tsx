@@ -13,8 +13,8 @@ interface HeroImageProps {
 
 export default function HeroImage({
   imageUrl = 'https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_675,g_auto/v1/site-images/corporate/default.jpg',
-  headline = 'The Future of Live Events Starts Here',
-  subheadline = 'Join creators, founders, and innovators for an electrifying event packed with bold talks, immersive experiences, and unforgettable moments.',
+  headline = 'Ignite Night 2026',
+  subheadline = 'One unforgettable night of speakers, music, and breakthrough ideas.',
   primaryCta = { label: 'Get Tickets', href: '#tickets' },
   secondaryCta = { label: 'View Schedule', href: '#schedule' },
   overlayOpacity = 'bg-black/50',
@@ -22,9 +22,11 @@ export default function HeroImage({
   return (
     <section className="relative min-h-[600px] md:min-h-[700px] flex items-center justify-center">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(' + imageUrl + ')' }} />
-      <div className={'absolute inset-0 ' + overlayOpacity + ' bg-gradient-to-br from-amber-500/30 via-orange-500/20 to-red-500/30'} />
+      <div className={'absolute inset-0 ' + overlayOpacity + ' bg-gradient-to-br from-purple-950/70 via-red-500/30 to-amber-400/20'} />
       <div className="relative z-10 container mx-auto max-w-7xl px-4 text-center text-white">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">{headline}</h1>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+          {headline}
+        </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg md:text-xl text-white/90">{subheadline}</p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button size="lg" className="px-8 py-6 text-lg bg-amber-400 text-black hover:bg-amber-300" asChild>

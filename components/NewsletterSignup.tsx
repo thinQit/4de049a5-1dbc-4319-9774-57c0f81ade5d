@@ -10,8 +10,8 @@ interface NewsletterSignupProps {
 }
 
 export default function NewsletterSignup({
-  headline = 'Stay in the Loop',
-  subheadline = 'Get event announcements, speaker drops, and early ticket access.',
+  headline = 'Get event updates first',
+  subheadline = 'Be the first to hear lineup drops and ticket releases.',
   buttonLabel = 'Subscribe',
 }: Partial<NewsletterSignupProps>) {
   return (
@@ -21,9 +21,7 @@ export default function NewsletterSignup({
         {subheadline && <p className="mt-3 text-muted-foreground">{subheadline}</p>}
         <form className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-2">
           <Input type="email" placeholder="Enter your email" className="flex-1" />
-          <Button type="submit" className="px-8">
-            {buttonLabel}
-          </Button>
+          <Button type="submit" className="px-8">{buttonLabel}</Button>
         </form>
         <p className="mt-3 text-xs text-muted-foreground">No spam. Unsubscribe anytime.</p>
       </div>

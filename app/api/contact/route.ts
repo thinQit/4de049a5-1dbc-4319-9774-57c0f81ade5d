@@ -4,31 +4,23 @@ import { contactSchema } from "@/lib/validators";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const parsed = contactSchema.safeParse(body);
+    const json = await req.json();
+    const parsed = contactSchema.safeParse(json);
 
     if (!parsed.success) {
       return NextResponse.json(
-        { success: false, error: "Invalid input", issues: parsed.error.flatten() },
+        { error: "Invalid input", details: parsed.error.flatten() },
         { status: 400 }
       );
     }
 
-    const payload = parsed.data;
-
-    await db.contactMessage.create({
-      data: {
-        fullName: payload.fullName,
-        email: payload.email,
-        phone: payload.phone || null,
-        topic: payload.topic,
-        message: payload.message,
-      },
+    const inquiry = await db.contactInquiry.create({
+      data: parsed.data,
     });
 
-    return NextResponse.json({ success: true, message: "Inquiry submitted successfully." }, { status: 201 });
+    return NextResponse.json({ success: true, id: inquiry.id }, { status: 201 });
   } catch (error) {
     console.error("POST /api/contact error:", error);
-    return NextResponse.json({ success: false, error: "Failed to submit inquiry." }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

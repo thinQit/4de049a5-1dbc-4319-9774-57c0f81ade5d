@@ -12,12 +12,12 @@ interface CTABannerProps {
 }
 
 export default function CTABanner({
-  headline = 'Ready to start your learning journey?',
-  description = 'Enroll today and unlock expert-led classes, mentorship, and a supportive community.',
-  ctaLabel = 'Start Enrollment',
-  ctaHref = '#enrollment',
-  secondaryCtaLabel = 'Browse Courses',
-  secondaryCtaHref = '#courses',
+  headline = 'Tickets are going fast',
+  description = 'Secure your pass now before prices increase.',
+  ctaLabel = 'Buy Tickets',
+  ctaHref = '#tickets',
+  secondaryCtaLabel = 'Become a Sponsor',
+  secondaryCtaHref = '#sponsors',
 }: Partial<CTABannerProps>) {
   return (
     <section className="bg-primary py-16 md:py-20">
@@ -25,11 +25,9 @@ export default function CTABanner({
         <h2 className="text-3xl font-bold text-primary-foreground md:text-4xl">{headline}</h2>
         {description && <p className="mt-4 text-lg text-primary-foreground/80">{description}</p>}
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button size="lg" variant="secondary" className="rounded-xl px-8" asChild>
-            <a href={ctaHref}>{ctaLabel}</a>
-          </Button>
+          <Button size="lg" variant="secondary" className="px-8" asChild><a href={ctaHref}>{ctaLabel}</a></Button>
           {secondaryCtaLabel && secondaryCtaHref && (
-            <Button size="lg" variant="outline" className="rounded-xl border-primary-foreground px-8 text-primary-foreground hover:bg-primary-foreground/10" asChild>
+            <Button size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 px-8" asChild>
               <a href={secondaryCtaHref}>{secondaryCtaLabel}</a>
             </Button>
           )}

@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { getServerSession, type NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import type { NextAuthOptions } from "next-auth";
+import EmailProvider from "next-auth/providers/email";
+import { getServerSession } from "next-auth";
 import { db } from "@/lib/db";
 
 export const authOptions: NextAuthOptions = {
@@ -9,14 +10,13 @@ export const authOptions: NextAuthOptions = {
     strategy: "database",
   },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    EmailProvider({
+      server: process.env.EMAIL_SERVER,
+      from: process.env.EMAIL_FROM,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/login",
   },
   callbacks: {
     async session({ session, user }) {
@@ -28,4 +28,4 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export const auth = () => getServerSession(authOptions);
+export const getAuthSession = () => getServerSession(authOptions);

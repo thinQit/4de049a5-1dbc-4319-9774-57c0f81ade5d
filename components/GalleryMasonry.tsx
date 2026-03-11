@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface GalleryImage {
   url: string;
@@ -16,8 +16,8 @@ interface GalleryMasonryProps {
 }
 
 export default function GalleryMasonry({
-  headline = 'Event Highlights',
-  subheadline = 'A look at the energy, moments, and people that define the experience.',
+  headline = 'Event Gallery',
+  subheadline = 'Highlights from previous editions.',
   images = [],
 }: Partial<GalleryMasonryProps>) {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
@@ -30,34 +30,19 @@ export default function GalleryMasonry({
           {subheadline && <p className="mt-4 text-lg text-muted-foreground">{subheadline}</p>}
         </div>
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {images.map(function (img, i) {
+          {images.map(function(img, i) {
             return (
-              <div
-                key={i}
-                className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl"
-                onClick={function () {
-                  setSelectedImage(img);
-                }}
-              >
-                <Image src={img.url} alt={img.alt} width={900} height={900} unoptimized className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+              <div key={i} className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl" onClick={function() { setSelectedImage(img); }}>
+                <Image src={img.url} alt={img.alt} width={600} height={600} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" unoptimized />
                 <div className="absolute inset-0 bg-black/0 transition-all group-hover:bg-black/30" />
-                {img.caption && (
-                  <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0">
-                    <p className="text-sm text-white">{img.caption}</p>
-                  </div>
-                )}
+                {img.caption && <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0"><p className="text-sm text-white">{img.caption}</p></div>}
               </div>
             );
           })}
         </div>
         {selectedImage && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
-            onClick={function () {
-              setSelectedImage(null);
-            }}
-          >
-            <Image src={selectedImage.url} alt={selectedImage.alt} width={1400} height={900} unoptimized className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain" />
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" onClick={function() { setSelectedImage(null); }}>
+            <Image src={selectedImage.url} alt={selectedImage.alt} width={1400} height={900} className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain" unoptimized />
           </div>
         )}
       </div>

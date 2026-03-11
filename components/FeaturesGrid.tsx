@@ -1,8 +1,8 @@
 "use client";
 
 import React from 'react';
-import { BookOpen, Globe, Shield, Sparkles, Star, Zap, Target, RefreshCw, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Sparkles, Globe, Shield, Star, Zap, Heart, Trophy, Users, Medal } from 'lucide-react';
 
 interface Feature {
   icon: string;
@@ -18,15 +18,14 @@ interface FeaturesGridProps {
 }
 
 export default function FeaturesGrid({
-  badge = 'Why Families Choose Us',
-  headline = 'Everything learners need to grow with confidence',
-  subheadline = 'A welcoming environment, expert instructors, and practical curriculum built for every stage.',
+  badge = 'Why Attend',
+  headline = 'A high-energy event experience',
+  subheadline = 'Discover what makes Ignite Night the most talked-about event of the year.',
   features = [],
 }: Partial<FeaturesGridProps>) {
-  const iconMap: Record<string, React.ElementType> = { Target, RefreshCw, Users,  Sparkles, Globe, Shield, Star, Zap, Heart: BookOpen, BookOpen };
-
+  const iconMap: Record<string, React.ElementType> = { Trophy, Users, Medal,  Sparkles, Globe, Shield, Star, Zap, Heart };
   return (
-    <section className="bg-muted/50 py-20 md:py-28">
+    <section className="py-20 md:py-28 bg-muted/50">
       <div className="container mx-auto max-w-7xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           {badge && <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-primary">{badge}</span>}
@@ -34,12 +33,12 @@ export default function FeaturesGrid({
           {subheadline && <p className="mt-4 text-lg text-muted-foreground">{subheadline}</p>}
         </div>
         <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {features.map(function (feature, index) {
-            const Icon = iconMap[feature.icon] || Sparkles;
+          {features.map(function(feature, index) {
+            const Icon = iconMap[feature.icon] || Star;
             return (
-              <Card key={index} className="rounded-2xl border bg-card shadow-sm transition-shadow hover:shadow-md">
+              <Card key={index} className="border-0 bg-background shadow-md hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     {React.createElement(Icon, { className: 'h-6 w-6' })}
                   </div>
                   <h3 className="text-xl font-semibold text-foreground">{feature.title}</h3>

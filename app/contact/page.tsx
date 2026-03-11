@@ -1,29 +1,24 @@
 export const dynamic = 'force-dynamic';
 
-import HeroSection from "@/components/HeroSection";
-import ContactForm from "@/components/ContactForm";
-import MapSection from "@/components/MapSection";
-import CTASection from "@/components/CTASection";
+import HeroSection from '@/components/HeroSection'
+import ContactForm from '@/components/ContactForm'
+import VenueMap from '@/components/VenueMap'
+import CTABanner from '@/components/CTABanner'
 
 export default function ContactPage() {
   return (
-    <main className="bg-background text-foreground">
+    <main>
       <HeroSection />
       <ContactForm
-        headline="Inquiry form"
-        subheadline="Choose a topic so we route your message to the right team."
+        headline="Inquiry & membership questions"
+        subheadline="We respond within 1–2 business days."
         contactInfo={[
-          { icon: "Phone", label: "Phone", value: "+91 98765 43210" },
-          { icon: "Mail", label: "Email", value: "hello@anandtennisclub.in" },
-          {
-            icon: "MapPin",
-            label: "Address",
-            value: "Near Sardar Patel Ring Road, Anand, Gujarat 388001",
-          },
+          { icon: 'Mail', label: 'Email', value: 'hello@anandtennisclub.co.uk' },
+          { icon: 'Phone', label: 'Phone', value: '+44 20 7946 0188' },
         ]}
       />
-      <MapSection />
-      <CTASection />
+      <VenueMap />
+      <CTABanner headline="Prefer to start with membership?" ctaLabel="Membership sign-up" ctaHref="/membership" />
     </main>
-  );
+  )
 }

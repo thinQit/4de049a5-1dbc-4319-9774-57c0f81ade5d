@@ -17,8 +17,8 @@ interface TeamGridProps {
 }
 
 export default function TeamGrid({
-  headline = 'Meet the Team',
-  subheadline = 'The organizers and hosts behind the experience.',
+  headline = 'Meet the Speakers',
+  subheadline = 'Industry voices shaping the future.',
   members = [],
 }: Partial<TeamGridProps>) {
   return (
@@ -29,12 +29,12 @@ export default function TeamGrid({
           {subheadline && <p className="mt-4 text-lg text-muted-foreground">{subheadline}</p>}
         </div>
         <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {members.map(function (member, i) {
+          {members.map(function(member, i) {
             return (
               <Card key={i} className="overflow-hidden border-0 bg-background shadow-md text-center">
                 {member.imageUrl && (
                   <div className="aspect-square overflow-hidden">
-                    <Image src={member.imageUrl} alt={member.name} width={600} height={600} unoptimized className="h-full w-full object-cover" />
+                    <Image src={member.imageUrl} alt={member.name} width={500} height={500} className="h-full w-full object-cover" unoptimized />
                   </div>
                 )}
                 <CardContent className="p-5">

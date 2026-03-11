@@ -1,107 +1,53 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, Trophy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-interface NavItem {
-  label: string
-  href: string
+interface NavbarProps {
+  logoText?: string
+  links?: { label: string; href: string }[]
+  className?: string
 }
 
-interface NavbarProps {
-  brandName?: string
-  navItems?: NavItem[]
-  activePath?: string
-  ctaLabel?: string
-  ctaHref?: string
-}
+const DEFAULT_NAV_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'Club', href: '/club' },
+  { label: 'Membership', href: '/membership' },
+  { label: 'Events', href: '/events' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+]
 
 export default function Navbar({
-  brandName = 'Anand Tennis Club',
-  navItems = [
-    { label: 'Home', href: '/' },
-    { label: 'Club Overview', href: '/club' },
-    { label: 'Events', href: '/events' },
-    { label: 'Membership', href: '/membership' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Contact', href: '/contact' }
-  ],
-  activePath = '/',
-  ctaLabel = 'Join Membership',
-  ctaHref = '/membership',
+  logoText = 'Anand Tennis Club',
+  links = DEFAULT_NAV_LINKS,
+  className = '',
 }: Partial<NavbarProps>) {
-  const [open, setOpen] = useState(false)
-
   return (
-    <header className="sticky top-0 z-50 border-b border-emerald-900/60 bg-emerald-900/95 backdrop-blur">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
-        <Link href="/" className="text-xl font-extrabold tracking-tight text-white">
-          {brandName}
+    <header className={cn('sticky top-0 z-50 border-b border-white/10 bg-[#0B2A1E]/95 backdrop-blur', className)}>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-white">
+          <Trophy className="h-5 w-5 text-[#FFD700]" />
+          <span>{logoText}</span>
         </Link>
-
-        <div className="hidden items-center gap-7 md:flex">
-          {navItems.map((item) => {
-            const isActive = activePath === item.href
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  'relative text-sm font-semibold text-emerald-50 transition-colors hover:text-white',
-                  isActive && 'text-white'
-                )}
-              >
-                {item.label}
-                <span
-                  className={cn(
-                    'absolute -bottom-2 left-0 h-0.5 w-full bg-[#FFD700] transition-opacity',
-                    isActive ? 'opacity-100' : 'opacity-0'
-                  )}
-                />
-              </Link>
-            )
-          })}
-          <Button asChild className="bg-[#FFD700] text-emerald-950 hover:bg-[#e8c200]">
-            <Link href={ctaHref}>{ctaLabel}</Link>
+        <nav className="hidden items-center gap-6 md:flex">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} className="text-sm text-white/90 hover:text-[#FFD700]">
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2">
+          <Button className="rounded-xl bg-[#FFD700] px-5 py-2 font-semibold text-[#0B2A1E] hover:bg-[#ffd700]/90" asChild>
+            <Link href="/membership">Join Now</Link>
           </Button>
+          <button className="md:hidden">
+            <Menu className="h-5 w-5 text-white" />
+          </button>
         </div>
-
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen(!open)}
-          className="rounded-md p-2 text-white hover:bg-emerald-800 md:hidden"
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </nav>
-
-      {open && (
-        <div className="border-t border-emerald-800 bg-emerald-900 px-4 py-4 md:hidden">
-          <div className="flex flex-col gap-3">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className={cn(
-                  'rounded-md px-3 py-2 text-sm font-medium text-emerald-50 hover:bg-emerald-800',
-                  activePath === item.href && 'bg-emerald-800 text-white'
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <Button asChild className="mt-2 bg-[#FFD700] text-emerald-950 hover:bg-[#e8c200]">
-              <Link href={ctaHref} onClick={() => setOpen(false)}>
-                {ctaLabel}
-              </Link>
-            </Button>
-          </div>
-        </div>
-      )}
+      </div>
     </header>
   )
 }

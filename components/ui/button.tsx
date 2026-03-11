@@ -1,58 +1,31 @@
 "use client";
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-lg font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-muted/40 hover:text-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-muted/40 hover:text-foreground",
-        link: "underline-offset-4 hover:underline text-primary",
-      },
-      size: {
-        default: "h-10 px-6 py-3 text-base",
-        sm: "h-9 rounded-md px-4 py-2 text-sm",
-        lg: "h-12 rounded-xl px-8 py-4 text-lg",
-        icon: "h-10 w-10 p-2",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-);
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    { className, variant, size, asChild = false, ...props },
-    ref
-  ) => {
-    const Comp = asChild ? Slot : "button";
+  ({ className, asChild, ...props }, ref) => {
+    if (asChild) {
+      // If asChild is true, the parent (Next.js Link or <a>) should handle rendering
+      return (
+        <span className={cn("inline-block", className)}>{props.children}</span>
+      );
+    }
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size }), className)}
+      <button
         ref={ref}
+        className={cn(
+          "rounded-xl px-6 py-3 font-semibold tracking-tight",
+          className
+        )}
         {...props}
       />
     );
   }
 );
-Button.displayName = "Button";
 
-export { Button, buttonVariants };
+Button.displayName = "Button";
+export { Button };

@@ -1,72 +1,32 @@
-'use client'
-
-import { useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-
-interface ScheduleItem {
-  id: string
-  title: string
-  datetime: string
-  category: string
-  tags: string[]
-  href: string
-}
+"use client";
 
 interface ScheduleTimelineProps {
-  title?: string
-  items?: ScheduleItem[]
+  schedule?: { day: string; slots: string[] }[]
 }
 
 export default function ScheduleTimeline({
-  title = 'Event Schedule',
-  items = [
-    { id: '1', title: 'Junior Open Qualifiers', datetime: '2026-02-10 08:00 IST', category: 'Tournament', tags: ['Junior', 'Singles'], href: '/events/1' },
-    { id: '2', title: 'Women Doubles Night', datetime: '2026-02-14 18:30 IST', category: 'Community', tags: ['Doubles', 'Members'], href: '/events/2' },
-    { id: '3', title: 'Coach Masterclass', datetime: '2026-02-20 16:00 IST', category: 'Training', tags: ['Skill', 'Serve'], href: '/events/3' },
+  schedule = [
+    { day: 'Monday', slots: ['6:00 AM Conditioning', '5:00 PM Junior Drills'] },
+    { day: 'Wednesday', slots: ['7:00 AM Open Rally', '6:30 PM Match Play'] },
+    { day: 'Friday', slots: ['5:30 PM Pro Clinic', '8:00 PM Social Doubles'] },
+    { day: 'Sunday', slots: ['8:00 AM Tournament Prep', '6:00 PM Recovery Stretch'] },
   ],
 }: Partial<ScheduleTimelineProps>) {
-  const categories = ['All', ...Array.from(new Set(items.map((i) => i.category)))]
-  const [activeCategory, setActiveCategory] = useState('All')
-
-  const filtered = useMemo(
-    () => (activeCategory === 'All' ? items : items.filter((i) => i.category === activeCategory)),
-    [items, activeCategory]
-  )
-
   return (
-    <section className="bg-muted/30 py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-4 md:px-6">
-        <h2 className="text-3xl font-black md:text-4xl">{title}</h2>
-        <div className="mt-6 flex flex-wrap gap-2">
-          {categories.map((cat) => (
-            <Button
-              key={cat}
-              variant={activeCategory === cat ? 'default' : 'outline'}
-              onClick={() => setActiveCategory(cat)}
-              className={activeCategory === cat ? 'bg-emerald-700 hover:bg-emerald-800' : ''}
-            >
-              {cat}
-            </Button>
-          ))}
-        </div>
-
-        <div className="mt-10 space-y-6">
-          {filtered.map((item) => (
-            <div key={item.id} className="rounded-xl border bg-card p-5">
-              <p className="text-sm font-medium text-emerald-700">{item.datetime}</p>
-              <h3 className="mt-1 text-xl font-bold">{item.title}</h3>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {item.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">{tag}</Badge>
-                ))}
-              </div>
-              <Button asChild className="mt-4 bg-[#FFD700] text-black hover:bg-[#e8c200]">
-                <a href={item.href}>Register</a>
-              </Button>
+    <section className="py-20">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {schedule.map((day) => (
+          <div key={day.day} className="relative rounded-2xl border border-white/10 bg-[#102D21] p-5">
+            <div className="mb-4 text-lg font-bold text-[#FFD700]">{day.day}</div>
+            <div className="space-y-3">
+              {day.slots.map((slot) => (
+                <div key={slot} className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm text-white/85">
+                  {slot}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   )

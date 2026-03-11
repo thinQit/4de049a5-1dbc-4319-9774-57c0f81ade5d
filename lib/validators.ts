@@ -1,43 +1,84 @@
 import { z } from "zod";
 
-export const contactTopics = [
+export const membershipPlanSchema = z.enum(["SOCIAL", "STANDARD", "PERFORMANCE"]);
+export const playingLevelSchema = z.enum([
+  "BEGINNER",
+  "IMPROVER",
+  "INTERMEDIATE",
+  "ADVANCED",
+  "COMPETITIVE",
+]);
+
+export const inquiryReasonSchema = z.enum([
   "MEMBERSHIP",
   "COACHING",
   "EVENTS",
-  "CORPORATE_SCHOOL_BOOKING",
+  "JUNIOR_PROGRAM",
+  "CLUB_TOUR",
   "FEEDBACK",
-] as const;
+]);
 
-export const membershipPlans = ["SOCIAL", "PLAYER", "FAMILY"] as const;
-export const playingLevels = ["BEGINNER", "IMPROVER", "INTERMEDIATE", "ADVANCED", "COMPETITIVE"] as const;
+export const registrationCategorySchema = z.enum([
+  "MEN_SINGLES",
+  "WOMEN_SINGLES",
+  "MEN_DOUBLES",
+  "WOMEN_DOUBLES",
+  "MIXED_DOUBLES",
+]);
+
+export const eventTypeSchema = z.enum(["SOCIAL", "TOURNAMENT", "JUNIOR", "COACHING"]);
 
 export const contactSchema = z.object({
-  fullName: z.string().trim().min(2).max(120),
-  email: z.string().trim().email().max(255),
-  phone: z.string().trim().max(30).optional().or(z.literal("")),
-  topic: z.enum(contactTopics),
-  message: z.string().trim().min(10).max(2000),
+  name: z.string().min(2).max(120),
+  email: z.string().email().max(255),
+  reason: inquiryReasonSchema,
+  message: z.string().min(10).max(5000),
+  consent: z.literal(true),
 });
 
-export const membershipSchema = z.object({
-  fullName: z.string().trim().min(2).max(120),
-  email: z.string().trim().email().max(255),
-  phone: z.string().trim().min(7).max(30),
-  plan: z.enum(membershipPlans),
-  playingLevel: z.enum(playingLevels),
-  preferredTimes: z.array(z.string().trim().min(1).max(80)).max(8).optional().default([]),
-  message: z.string().trim().max(2000).optional().or(z.literal("")),
+export const membershipApplySchema = z.object({
+  firstName: z.string().min(1).max(80),
+  lastName: z.string().min(1).max(80),
+  email: z.string().email().max(255),
+  phone: z.string().min(6).max(30).optional(),
+  plan: membershipPlanSchema,
+  playingLevel: playingLevelSchema,
+  interests: z.array(z.string().min(1).max(100)).max(10).optional().default([]),
+  notes: z.string().max(2000).optional(),
+  consent: z.literal(true),
 });
 
-export const newsletterSchema = z.object({
-  email: z.string().trim().email().max(255),
-  name: z.string().trim().min(1).max(120).optional().or(z.literal("")),
+export const newsletterSubscribeSchema = z.object({
+  email: z.string().email().max(255),
+  interests: z.array(z.string().min(1).max(100)).max(10).optional().default([]),
+  consent: z.literal(true),
 });
 
 export const eventRegistrationSchema = z.object({
-  eventSlug: z.string().trim().min(2).max(120),
-  fullName: z.string().trim().min(2).max(120),
-  email: z.string().trim().email().max(255),
-  phone: z.string().trim().max(30).optional().or(z.literal("")),
-  notes: z.string().trim().max(1000).optional().or(z.literal("")),
+  eventSlug: z.string().min(1).max(120),
+  fullName: z.string().min(2).max(120),
+  email: z.string().email().max(255),
+  phone: z.string().min(6).max(30).optional(),
+  category: registrationCategorySchema,
+  level: playingLevelSchema,
+  partnerName: z.string().max(120).optional(),
+  notes: z.string().max(2000).optional(),
+  consent: z.literal(true),
+});
+
+export const getEventsQuerySchema = z.object({
+  type: eventTypeSchema.optional(),
+  upcomingOnly: z
+    .string()
+    .optional()
+    .transform((v) => v !== "false"),
+  limit: z
+    .string()
+    .optional()
+    .transform((v) => {
+      if (!v) return 50;
+      const parsed = Number.parseInt(v, 10);
+      if (Number.isNaN(parsed)) return 50;
+      return Math.min(Math.max(parsed, 1), 200);
+    }),
 });

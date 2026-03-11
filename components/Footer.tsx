@@ -1,92 +1,61 @@
 "use client";
 
 import Link from 'next/link'
-import { Separator } from '@/components/ui/separator'
-
-interface FooterLink {
-  label: string
-  href: string
-}
+import { Facebook, Instagram, MapPin, Twitter } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 interface FooterProps {
-  brandName?: string
-  contactEmail?: string
-  contactPhone?: string
-  address?: string
-  quickLinks?: FooterLink[]
-  legalLinks?: FooterLink[]
+  clubName?: string
 }
 
-export default function Footer({
-  brandName = 'Anand Tennis club',
-  contactEmail = 'hello@anandtennisclub.com',
-  contactPhone = '+91 98765 43210',
-  address = 'Anand Tennis Club, Centre Court Road, Bengaluru, India',
-  quickLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Events', href: '/events' },
-    { label: 'Club Overview', href: '/club' },
-    { label: 'Contact', href: '/contact' },
-  ],
-  legalLinks = [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms & Conditions', href: '/terms' },
-    { label: 'Membership Policy', href: '/membership-policy' },
-  ],
-}: Partial<FooterProps>) {
+const QUICK_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'Club', href: '/club' },
+  { label: 'Membership', href: '/membership' },
+  { label: 'Events', href: '/events' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' }
+]
+
+export default function Footer({ clubName = 'Anand Tennis Club' }: Partial<FooterProps>) {
   return (
-    <footer className="bg-emerald-950 text-emerald-50">
-      <div className="mx-auto max-w-7xl px-4 py-16 md:px-6">
-        <div className="grid gap-10 md:grid-cols-3">
-          <div>
-            <h3 className="text-2xl font-extrabold text-white">{brandName}</h3>
-            <p className="mt-3 text-sm text-emerald-100">
-              Wimbledon-inspired tennis culture with modern facilities, monthly events, and coaching
-              for all levels.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-[#FFD700]">Contact</h4>
-            <ul className="mt-3 space-y-2 text-sm">
-              <li>{address}</li>
-              <li>{contactPhone}</li>
-              <li>{contactEmail}</li>
-            </ul>
-          </div>
-
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <h4 className="text-sm font-semibold uppercase tracking-wide text-[#FFD700]">Quick Links</h4>
-              <ul className="mt-3 space-y-2 text-sm">
-                {quickLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="hover:text-white">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold uppercase tracking-wide text-[#FFD700]">Legal</h4>
-              <ul className="mt-3 space-y-2 text-sm">
-                {legalLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="hover:text-white">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+    <footer className="border-t border-white/10 bg-[#081D15]">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-4 lg:px-8">
+        <div>
+          <h3 className="text-lg font-bold text-white">{clubName}</h3>
+          <p className="mt-3 text-sm text-white/70">Wimbledon-inspired tennis experiences in a modern, vibrant club setting.</p>
+        </div>
+        <div>
+          <h4 className="font-semibold text-[#FFD700]">Visit Us</h4>
+          <p className="mt-3 text-sm text-white/80">88 Centre Court Avenue</p>
+          <p className="text-sm text-white/80">Open Daily: 6:00 AM - 10:00 PM</p>
+          <div className="mt-2 flex items-center gap-2 text-sm text-white/70">
+            <MapPin className="h-4 w-4" /> Near Central Metro Line
           </div>
         </div>
-
-        <Separator className="my-8 bg-emerald-800" />
-        <p className="text-xs text-emerald-200">
-          © {new Date().getFullYear()} {brandName}. All rights reserved.
-        </p>
+        <div>
+          <h4 className="font-semibold text-[#FFD700]">Quick Links</h4>
+          <ul className="mt-3 space-y-2 text-sm text-white/80">
+            {QUICK_LINKS.map(link => (
+              <li key={link.href}>
+                <Link href={link.href}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-semibold text-[#FFD700]">Newsletter</h4>
+          <div className="mt-3 flex gap-2">
+            <Input placeholder="Enter your email" type="email" />
+            <Button className="bg-[#FFD700] text-[#0B2A1E] hover:bg-[#ffd700]/90">Join</Button>
+          </div>
+          <div className="mt-4 flex gap-3 text-white/80">
+            <Facebook className="h-4 w-4" />
+            <Instagram className="h-4 w-4" />
+            <Twitter className="h-4 w-4" />
+          </div>
+        </div>
       </div>
     </footer>
   )

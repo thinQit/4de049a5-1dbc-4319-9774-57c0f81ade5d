@@ -22,8 +22,8 @@ interface PricingTableProps {
 }
 
 export default function PricingTable({
-  headline = 'Ticket Options',
-  subheadline = 'Choose the pass that fits your event experience.',
+  headline = 'Ticket Tiers',
+  subheadline = 'Choose your pass and secure your spot.',
   tiers = [],
 }: Partial<PricingTableProps>) {
   return (
@@ -34,38 +34,24 @@ export default function PricingTable({
           {subheadline && <p className="mt-4 text-lg text-muted-foreground">{subheadline}</p>}
         </div>
         <div className="mt-16 grid gap-8 md:grid-cols-3">
-          {tiers.map(function (tier, i) {
+          {tiers.map(function(tier, i) {
             return (
-              <Card key={i} className={'relative flex flex-col ' + (tier.highlighted ? 'border-primary ring-2 ring-primary scale-105' : 'border')}>
-                {tier.highlighted && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <Badge>Most Popular</Badge>
-                  </div>
-                )}
+              <Card key={i} className={'relative flex flex-col ' + (tier.highlighted ? 'border-amber-400 ring-2 ring-amber-400 scale-105' : 'border')}>
+                {tier.highlighted && <div className="absolute -top-3 left-1/2 -translate-x-1/2"><Badge className="bg-amber-400 text-black">Most Popular</Badge></div>}
                 <CardHeader className="text-center">
                   <CardTitle className="text-xl">{tier.name}</CardTitle>
                   <CardDescription>{tier.description}</CardDescription>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold text-foreground">{tier.price}</span>
-                    {tier.period && <span className="text-muted-foreground">/{tier.period}</span>}
-                  </div>
+                  <div className="mt-4"><span className="text-4xl font-bold text-foreground">{tier.price}</span>{tier.period && <span className="text-muted-foreground">/{tier.period}</span>}</div>
                 </CardHeader>
                 <CardContent className="flex-1">
                   <ul className="space-y-3">
-                    {tier.features.map(function (feature, j) {
-                      return (
-                        <li key={j} className="flex items-start gap-2 text-sm">
-                          <span className="mt-0.5 text-primary">&#10003;</span>
-                          <span className="text-muted-foreground">{feature}</span>
-                        </li>
-                      );
+                    {tier.features.map(function(feature, j) {
+                      return <li key={j} className="flex items-start gap-2 text-sm"><span className="mt-0.5 text-amber-500">&#10003;</span><span className="text-muted-foreground">{feature}</span></li>;
                     })}
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" variant={tier.highlighted ? 'default' : 'outline'} asChild>
-                    <a href={tier.ctaHref}>{tier.ctaLabel}</a>
-                  </Button>
+                  <Button className="w-full" variant={tier.highlighted ? 'default' : 'outline'} asChild><a href={tier.ctaHref}>{tier.ctaLabel}</a></Button>
                 </CardFooter>
               </Card>
             );
