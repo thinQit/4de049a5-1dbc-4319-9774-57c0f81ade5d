@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-import { Mail, MapPin, Phone, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,14 +19,12 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({
-  headline = 'Get in touch',
-  subheadline = 'Have questions about courses, schedules, or enrollment? We are here to help.',
+  headline = 'Contact the Event Team',
+  subheadline = 'Questions about tickets, partnerships, or speaking opportunities? Send us a message.',
   contactInfo = [],
 }: Partial<ContactFormProps>) {
-  const iconMap: Record<string, React.ElementType> = { Mail, Phone, MapPin, Sparkles };
-
   return (
-    <section className="bg-muted/50 py-20 md:py-28">
+    <section className="py-20 md:py-28 bg-muted/50">
       <div className="container mx-auto max-w-7xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">{headline}</h2>
@@ -56,7 +52,7 @@ export default function ContactForm({
                   <Label htmlFor="message">Message</Label>
                   <Textarea id="message" placeholder="Tell us more..." rows={5} />
                 </div>
-                <Button type="submit" className="w-full rounded-xl">
+                <Button type="submit" className="w-full">
                   Send Message
                 </Button>
               </form>
@@ -65,10 +61,9 @@ export default function ContactForm({
           {contactInfo && contactInfo.length > 0 && (
             <div className="flex flex-col justify-center space-y-8">
               {contactInfo.map(function (info, i) {
-                const Icon = iconMap[info.icon] || Sparkles;
                 return (
                   <div key={i} className="flex items-start gap-4">
-                    <span className="rounded-lg bg-primary/10 p-2 text-primary">{React.createElement(Icon, { className: 'h-5 w-5' })}</span>
+                    <span className="text-2xl">{info.icon}</span>
                     <div>
                       <p className="font-semibold text-foreground">{info.label}</p>
                       <p className="text-muted-foreground">{info.value}</p>

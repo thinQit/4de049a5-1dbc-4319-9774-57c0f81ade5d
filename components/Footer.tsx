@@ -1,39 +1,92 @@
-'use client'
+"use client";
 
 import Link from 'next/link'
-import { Instagram, Facebook, Linkedin } from 'lucide-react'
-import NewsletterForm from '@/components/NewsletterForm'
+import { Separator } from '@/components/ui/separator'
 
-export default function Footer() {
+interface FooterLink {
+  label: string
+  href: string
+}
+
+interface FooterProps {
+  brandName?: string
+  contactEmail?: string
+  contactPhone?: string
+  address?: string
+  quickLinks?: FooterLink[]
+  legalLinks?: FooterLink[]
+}
+
+export default function Footer({
+  brandName = 'Anand Tennis club',
+  contactEmail = 'hello@anandtennisclub.com',
+  contactPhone = '+91 98765 43210',
+  address = 'Anand Tennis Club, Centre Court Road, Bengaluru, India',
+  quickLinks = [
+    { label: 'Home', href: '/' },
+    { label: 'Events', href: '/events' },
+    { label: 'Club Overview', href: '/club' },
+    { label: 'Contact', href: '/contact' },
+  ],
+  legalLinks = [
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms & Conditions', href: '/terms' },
+    { label: 'Membership Policy', href: '/membership-policy' },
+  ],
+}: Partial<FooterProps>) {
   return (
-    <footer className='bg-[#0B3A21] py-14 text-white'>
-      <div className='mx-auto grid max-w-7xl gap-8 px-4 md:grid-cols-4 md:px-6'>
-        <div>
-          <h4 className='font-bold'>Wimbledon Grove Tennis Club</h4>
-          <p className='mt-2 text-sm text-white/80'>18 Centre Court Lane, London</p>
-          <p className='text-sm text-white/80'>Mon–Sun: 06:00 – 22:00</p>
-        </div>
-        <div>
-          <h5 className='font-semibold'>Contact</h5>
-          <p className='mt-2 text-sm text-white/80'>+44 20 7946 1234</p>
-          <p className='text-sm text-white/80'>hello@wimbledongroveclub.com</p>
-        </div>
-        <div>
-          <h5 className='font-semibold'>Legal</h5>
-          <div className='mt-2 space-y-1 text-sm text-white/80'>
-            <Link href='/privacy' className='block hover:text-white'>Privacy Policy</Link>
-            <Link href='/terms' className='block hover:text-white'>Terms of Service</Link>
+    <footer className="bg-emerald-950 text-emerald-50">
+      <div className="mx-auto max-w-7xl px-4 py-16 md:px-6">
+        <div className="grid gap-10 md:grid-cols-3">
+          <div>
+            <h3 className="text-2xl font-extrabold text-white">{brandName}</h3>
+            <p className="mt-3 text-sm text-emerald-100">
+              Wimbledon-inspired tennis culture with modern facilities, monthly events, and coaching
+              for all levels.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-[#FFD700]">Contact</h4>
+            <ul className="mt-3 space-y-2 text-sm">
+              <li>{address}</li>
+              <li>{contactPhone}</li>
+              <li>{contactEmail}</li>
+            </ul>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-sm font-semibold uppercase tracking-wide text-[#FFD700]">Quick Links</h4>
+              <ul className="mt-3 space-y-2 text-sm">
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="hover:text-white">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold uppercase tracking-wide text-[#FFD700]">Legal</h4>
+              <ul className="mt-3 space-y-2 text-sm">
+                {legalLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="hover:text-white">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-        <div>
-          <h5 className='font-semibold'>Newsletter</h5>
-          <div className='mt-3'><NewsletterForm /></div>
-          <div className='mt-4 flex gap-3'>
-            <Instagram className='h-5 w-5' />
-            <Facebook className='h-5 w-5' />
-            <Linkedin className='h-5 w-5' />
-          </div>
-        </div>
+
+        <Separator className="my-8 bg-emerald-800" />
+        <p className="text-xs text-emerald-200">
+          © {new Date().getFullYear()} {brandName}. All rights reserved.
+        </p>
       </div>
     </footer>
   )

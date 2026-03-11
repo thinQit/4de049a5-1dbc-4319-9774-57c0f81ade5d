@@ -15,12 +15,14 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="mx-auto max-w-3xl px-4 md:px-6 py-20 md:py-28 text-center space-y-6">
-      <h1 className="text-3xl md:text-4xl font-semibold">Something went wrong.</h1>
-      <p className="text-muted-foreground">
+    <main className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-4 text-center">
+      <h1 className="text-3xl font-bold">Something went wrong</h1>
+      <p className="mt-3 text-muted-foreground">
         We couldn’t load this page right now. Please try again.
       </p>
-      <Button onClick={() => reset()}>Try again</Button>
+      <Button className="mt-6" onClick={() => reset()}>
+        Try again
+      </Button>
     </main>
   );
 }

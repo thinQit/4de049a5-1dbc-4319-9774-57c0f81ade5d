@@ -1,71 +1,107 @@
 'use client'
 
-import { Menu } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
+import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import NavDropdown from '@/components/NavDropdown'
-import MobileNavSheet from '@/components/MobileNavSheet'
+
+interface NavItem {
+  label: string
+  href: string
+}
 
 interface NavbarProps {
-  logoText?: string
-  sticky?: boolean
-  darkOnGreen?: boolean
+  brandName?: string
+  navItems?: NavItem[]
+  activePath?: string
+  ctaLabel?: string
+  ctaHref?: string
 }
 
 export default function Navbar({
-  logoText = 'Wimbledon Grove Tennis Club',
-  sticky = true,
-  darkOnGreen = true,
+  brandName = 'Anand Tennis Club',
+  navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Club Overview', href: '/club' },
+    { label: 'Events', href: '/events' },
+    { label: 'Membership', href: '/membership' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Contact', href: '/contact' }
+  ],
+  activePath = '/',
+  ctaLabel = 'Join Membership',
+  ctaHref = '/membership',
 }: Partial<NavbarProps>) {
+  const [open, setOpen] = useState(false)
+
   return (
-    <header
-      className={cn(
-        'z-50 w-full border-b border-white/10',
-        sticky ? 'sticky top-0' : 'relative',
-        darkOnGreen ? 'bg-[#0F4D2C] text-white' : 'bg-white text-[#0F4D2C]'
-      )}
-    >
-      <div className='mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6'>
-        <Link href='/' className='flex items-center gap-3'>
-          <Image src='https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1000,h_750,g_auto/v1/site-images/corporate/default.jpg' alt='Club crest' width={40} height={40} className='rounded-full' />
-          <span className='text-sm font-bold tracking-wide md:text-base'>{logoText}</span>
+    <header className="sticky top-0 z-50 border-b border-emerald-900/60 bg-emerald-900/95 backdrop-blur">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+        <Link href="/" className="text-xl font-extrabold tracking-tight text-white">
+          {brandName}
         </Link>
 
-        <nav className='hidden items-center gap-8 md:flex'>
-          <Link href='/' className='text-sm font-semibold hover:opacity-80'>Home</Link>
-          <Link href='/events' className='text-sm font-semibold hover:opacity-80'>Events</Link>
-          <NavDropdown
-            label='Club'
-            items={[
-              { label: 'About Us', href: '/club' },
-              { label: 'History', href: '/club#history' },
-              { label: 'Facilities', href: '/club#facilities' },
-            ]}
-          />
-          <NavDropdown
-            label='Membership'
-            items={[
-              { label: 'Plans', href: '/membership' },
-              { label: 'Benefits', href: '/membership#benefits' },
-              { label: 'Enquiry', href: '/contact#membership' },
-            ]}
-          />
-          <Link href='/contact' className='text-sm font-semibold hover:opacity-80'>Contact</Link>
-        </nav>
-
-        <div className='hidden md:block'>
-          <Button className='rounded-xl bg-white text-[#0F4D2C] hover:bg-white/90'>Join the Club</Button>
+        <div className="hidden items-center gap-7 md:flex">
+          {navItems.map((item) => {
+            const isActive = activePath === item.href
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'relative text-sm font-semibold text-emerald-50 transition-colors hover:text-white',
+                  isActive && 'text-white'
+                )}
+              >
+                {item.label}
+                <span
+                  className={cn(
+                    'absolute -bottom-2 left-0 h-0.5 w-full bg-[#FFD700] transition-opacity',
+                    isActive ? 'opacity-100' : 'opacity-0'
+                  )}
+                />
+              </Link>
+            )
+          })}
+          <Button asChild className="bg-[#FFD700] text-emerald-950 hover:bg-[#e8c200]">
+            <Link href={ctaHref}>{ctaLabel}</Link>
+          </Button>
         </div>
 
-        <div className='md:hidden'>
-          <MobileNavSheet
-            triggerIcon='Menu'
-            triggerClassName={cn(darkOnGreen ? 'text-white' : 'text-[#0F4D2C]')}
-          />
+        <button
+          aria-label="Toggle menu"
+          onClick={() => setOpen(!open)}
+          className="rounded-md p-2 text-white hover:bg-emerald-800 md:hidden"
+        >
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </nav>
+
+      {open && (
+        <div className="border-t border-emerald-800 bg-emerald-900 px-4 py-4 md:hidden">
+          <div className="flex flex-col gap-3">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className={cn(
+                  'rounded-md px-3 py-2 text-sm font-medium text-emerald-50 hover:bg-emerald-800',
+                  activePath === item.href && 'bg-emerald-800 text-white'
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Button asChild className="mt-2 bg-[#FFD700] text-emerald-950 hover:bg-[#e8c200]">
+              <Link href={ctaHref} onClick={() => setOpen(false)}>
+                {ctaLabel}
+              </Link>
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </header>
   )
 }

@@ -3,22 +3,37 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
-export default function NewsletterForm() {
-  const [done, setDone] = useState(false)
+interface NewsletterFormProps {
+  actionUrl?: string
+  message?: string
+}
+
+export default function NewsletterForm({
+  actionUrl = '/api/newsletter-subscribe',
+  message = 'Get monthly updates on events, coaching tips, and club announcements.',
+}: Partial<NewsletterFormProps>) {
+  const [loading, setLoading] = useState(false)
 
   return (
     <form
-      className='flex flex-col gap-3 sm:flex-row'
-      onSubmit={(e) => {
-        e.preventDefault()
-        setDone(true)
-        setTimeout(() => setDone(false), 2200)
-      }}
+      action={actionUrl}
+      method="POST"
+      onSubmit={() => setLoading(true)}
+      className="rounded-xl border bg-card p-6"
     >
-      <Input type='email' placeholder='Enter your email' className='rounded-xl' />
-      <Button type='submit' className='rounded-xl bg-[#0F4D2C] hover:bg-[#0c3f24]'>Subscribe</Button>
-      {done && <span className='text-sm text-[#2C8B57]'>Subscribed successfully.</span>}
+      <h3 className="text-xl font-bold">Newsletter Subscription</h3>
+      <p className="mt-1 text-sm text-muted-foreground">{message}</p>
+      <div className="mt-4">
+        <Label htmlFor="newsletterEmail">Email</Label>
+        <div className="mt-2 flex gap-2">
+          <Input id="newsletterEmail" type="email" name="email" required placeholder="you@example.com" />
+          <Button type="submit" disabled={loading}>
+            {loading ? 'Joining...' : 'Subscribe'}
+          </Button>
+        </div>
+      </div>
     </form>
   )
 }

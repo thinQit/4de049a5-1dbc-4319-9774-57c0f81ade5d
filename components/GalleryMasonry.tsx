@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface GalleryImage {
   url: string;
@@ -16,8 +16,8 @@ interface GalleryMasonryProps {
 }
 
 export default function GalleryMasonry({
-  headline = 'Campus Life & Learning Moments',
-  subheadline = 'Explore classrooms, projects, workshops, and events from our student community.',
+  headline = 'Event Highlights',
+  subheadline = 'A look at the energy, moments, and people that define the experience.',
   images = [],
 }: Partial<GalleryMasonryProps>) {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
@@ -39,7 +39,7 @@ export default function GalleryMasonry({
                   setSelectedImage(img);
                 }}
               >
-                <Image src={img.url} alt={img.alt} width={1600} height={900} unoptimized className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                <Image src={img.url} alt={img.alt} width={900} height={900} unoptimized className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-black/0 transition-all group-hover:bg-black/30" />
                 {img.caption && (
                   <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform group-hover:translate-y-0">
@@ -51,8 +51,13 @@ export default function GalleryMasonry({
           })}
         </div>
         {selectedImage && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" onClick={function () { setSelectedImage(null); }}>
-            <Image src={selectedImage.url} alt={selectedImage.alt} width={1600} height={900} unoptimized className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain" />
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+            onClick={function () {
+              setSelectedImage(null);
+            }}
+          >
+            <Image src={selectedImage.url} alt={selectedImage.alt} width={1400} height={900} unoptimized className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain" />
           </div>
         )}
       </div>

@@ -1,46 +1,45 @@
 export const dynamic = 'force-dynamic';
 
 import HeroSection from "@/components/HeroSection";
-import FeaturesGrid from "@/components/FeaturesGrid";
-import CTABanner from "@/components/CTABanner";
+import BlogPostCard from "@/components/BlogPostCard";
+import CTASection from "@/components/CTASection";
 
 export default function BlogPage() {
+  const posts = [
+    {
+      title: "March Calendar: Ladder Nights, Mixed Doubles, and Junior Clinic",
+      date: "2026-03-01",
+      excerpt:
+        "This month’s schedule plus registration links and match-day reminders.",
+      slug: "march-calendar-ladder-mixed-junior",
+    },
+    {
+      title: "3 Serve Targets to Improve Your First-Serve Percentage",
+      date: "2026-02-01",
+      excerpt:
+        "Simple targets you can practice in 20 minutes to reduce double faults and start points stronger.",
+      slug: "serve-targets-first-serve-percentage",
+    },
+    {
+      title: "Court Etiquette: Warm-ups, Changeovers, and Keeping Play Moving",
+      date: "2026-01-01",
+      excerpt:
+        "A quick guide to match flow and good club culture—especially during busy hours.",
+      slug: "court-etiquette-warmups-changeovers",
+    },
+  ];
+
   return (
-    <main>
+    <main className="bg-background text-foreground">
       <HeroSection />
-      <FeaturesGrid
-        badge="Club Journal"
-        headline="Latest posts"
-        subheadline="Short, practical reads for players who want to improve."
-        features={[
-          {
-            icon: "Target",
-            title: "3 Serve Targets That Win Free Points",
-            description:
-              "A simple targeting framework to increase first-serve effectiveness without overhauling your motion.",
-          },
-          {
-            icon: "RefreshCw",
-            title: "How to Build a Reliable Second Serve Under Pressure",
-            description:
-              "Spin, margin, and routines—what our coaches teach to keep double faults down in matches.",
-          },
-          {
-            icon: "Users",
-            title: "Doubles: The 2 Patterns You Should Run Every Set",
-            description:
-              "Two repeatable patterns that simplify decision-making and create more net opportunities.",
-          },
-        ]}
-      />
-      <CTABanner
-        headline="Want coaching tailored to your game?"
-        description="Tell us your level and goals—we’ll recommend the right coach and clinic."
-        ctaLabel="Enquire About Coaching"
-        ctaHref="/contact?topic=coaching"
-        secondaryCtaLabel="View Club Info"
-        secondaryCtaHref="/club"
-      />
+      <section className="py-20 md:py-28">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <BlogPostCard key={post.slug} {...post} />
+          ))}
+        </div>
+      </section>
+      <CTASection />
     </main>
   );
 }

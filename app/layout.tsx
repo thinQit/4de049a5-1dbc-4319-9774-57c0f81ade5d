@@ -1,69 +1,59 @@
 import "./globals.css";
-import { Inter, Playfair_Display } from "next/font/google";
-import NavbarSticky from "@/components/NavbarSticky";
+import type { Metadata } from "next";
+import { Fraunces, Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";
 import FooterMultiColumn from "@/components/FooterMultiColumn";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
+const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-heading" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
 
-export const metadata = {
-  title: "Greenline Tennis Club | Premium Wimbledon-Inspired Tennis in London",
+export const metadata: Metadata = {
+  title: "Anand Tennis Club | Wimbledon-Inspired Tennis in Anand",
   description:
-    "Join Greenline Tennis Club in Wimbledon, London. Premium indoor & outdoor courts, LTA-accredited coaching, monthly tournaments, and membership plans for adults and juniors.",
+    "Join Anand Tennis Club for coaching, leagues, and tournaments in Anand, Gujarat. Wimbledon-green style, modern facilities, and monthly updates.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${playfair.variable} bg-background text-foreground`}>
-        <NavbarSticky
-          logo="Greenline Tennis Club"
-          navItems={[
-            { label: "Home", href: "/" },
-            { label: "Club", href: "/club" },
-            { label: "Events", href: "/events" },
-            { label: "Membership", href: "/membership" },
-            { label: "Blog", href: "/blog" },
-            { label: "Contact", href: "/contact" },
-          ]}
-          ctaLabel="Join the Club"
-          ctaHref="/membership"
-        />
+      <body className={`${fraunces.variable} ${inter.variable} antialiased`}>
+        <Navbar />
         {children}
         <FooterMultiColumn
-          brand="Greenline Tennis Club"
-          description="Premium coaching, pristine courts, and a calendar built for competitors."
+          brand="Anand Tennis Club"
+          description="Modern tennis. Classic standards."
           columns={[
             {
               title: "Club",
               links: [
-                { label: "About", href: "/club#about" },
-                { label: "Facilities", href: "/club#facilities" },
-                { label: "Coaching Team", href: "/club#coaching-team" },
+                { label: "Home", href: "/" },
+                { label: "Club Overview", href: "/club" },
+                { label: "Events", href: "/events" },
+                { label: "Blog", href: "/blog" },
               ],
             },
             {
               title: "Membership",
               links: [
-                { label: "Plans & Pricing", href: "/membership#membership-pricing" },
-                { label: "Enquiry Form", href: "/membership#membership-form" },
-                { label: "Benefits", href: "/club#membership-benefits" },
+                { label: "Sign Up", href: "/membership" },
+                { label: "Pricing", href: "/#pricing" },
+                { label: "FAQs", href: "/club#faq" },
               ],
             },
             {
               title: "Contact",
               links: [
-                { label: "hello@greenlinetennis.co.uk", href: "mailto:hello@greenlinetennis.co.uk" },
-                { label: "+44 20 7946 1188", href: "tel:+442079461188" },
-                { label: "Events Calendar", href: "/events" },
+                { label: "Contact Form", href: "/contact" },
+                { label: "Front Desk: +91 98765 43210", href: "tel:+919876543210" },
+                { label: "hello@anandtennisclub.in", href: "mailto:hello@anandtennisclub.in" },
               ],
             },
           ]}
-          copyright="© 2026 Greenline Tennis Club. All rights reserved."
+          copyright="© 2026 Anand Tennis Club. All rights reserved."
         />
       </body>
     </html>

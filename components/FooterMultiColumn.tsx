@@ -16,8 +16,8 @@ interface FooterMultiColumnProps {
 }
 
 export default function FooterMultiColumn({
-  brand = 'BrightPath Academy',
-  description = 'Helping learners of all ages build confidence through joyful, structured, and future-ready education.',
+  brand = 'Pulse Summit',
+  description = 'An immersive event experience featuring speakers, workshops, live showcases, and community connections.',
   columns = [],
   copyright,
 }: Partial<FooterMultiColumnProps>) {

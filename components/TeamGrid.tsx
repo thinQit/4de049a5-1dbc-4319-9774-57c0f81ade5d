@@ -17,12 +17,12 @@ interface TeamGridProps {
 }
 
 export default function TeamGrid({
-  headline = 'Meet Our Instructors',
-  subheadline = 'Experienced educators who make every lesson engaging, inclusive, and practical.',
+  headline = 'Meet the Team',
+  subheadline = 'The organizers and hosts behind the experience.',
   members = [],
 }: Partial<TeamGridProps>) {
   return (
-    <section className="bg-muted/50 py-20 md:py-28">
+    <section className="py-20 md:py-28 bg-muted/50">
       <div className="container mx-auto max-w-7xl px-4">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">{headline}</h2>
@@ -31,10 +31,10 @@ export default function TeamGrid({
         <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {members.map(function (member, i) {
             return (
-              <Card key={i} className="overflow-hidden rounded-2xl border bg-card text-center shadow-sm">
+              <Card key={i} className="overflow-hidden border-0 bg-background shadow-md text-center">
                 {member.imageUrl && (
                   <div className="aspect-square overflow-hidden">
-                    <Image src={member.imageUrl} alt={member.name} width={800} height={600} unoptimized className="h-full w-full object-cover" />
+                    <Image src={member.imageUrl} alt={member.name} width={600} height={600} unoptimized className="h-full w-full object-cover" />
                   </div>
                 )}
                 <CardContent className="p-5">

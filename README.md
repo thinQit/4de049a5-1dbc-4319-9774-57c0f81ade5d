@@ -1,15 +1,17 @@
-# Greenline Tennis Club
+# Anand Tennis Club
 
-Scaffold for a premium Wimbledon-inspired tennis club marketing website built with Next.js 14 App Router, TypeScript, Tailwind CSS, and shadcn/ui foundations.
+Next.js 14 + TypeScript + Tailwind + shadcn/ui scaffold for **Anand Tennis Club** (Wimbledon-inspired green and gold brand).
 
-## Tech Stack
+## Stack
 
-- Next.js 14.2.21
-- React 18.3.1
-- TypeScript 5.6.3
-- Tailwind CSS 3.4.17
-- shadcn/ui config
-- Framer Motion animations
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Zod
+- Framer Motion
+- NextAuth-ready env setup
+- PostgreSQL-ready env setup
 
 ## Getting Started
 
