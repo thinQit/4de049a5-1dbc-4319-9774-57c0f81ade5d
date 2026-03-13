@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum MembershipPlan {
@@ -86,51 +85,17 @@ model MembershipApplication {
 }
 
 model NewsletterSubscriber {
-  id          String   @id @default(cuid())
-  email       String   @unique
-  interests   String[]
-  consent     Boolean
+  id           String   @id @default(cuid())
+  email        String   @unique
+  interests    String[]
+  consent      Boolean
   subscribedAt DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt    DateTime @updatedAt
 
   @@index([subscribedAt])
 }
 
 model Event {
   id            String              @id @default(cuid())
-  slug          String              @unique
-  title         String
-  description   String
-  eventDate     DateTime
-  timeLabel     String
-  type          EventType
-  level         String
-  priceLabel    String
-  capacity      Int
-  location      String
-  isPublished   Boolean             @default(true)
-  createdAt     DateTime            @default(now())
-  updatedAt     DateTime            @updatedAt
-  registrations EventRegistration[]
-
-  @@index([eventDate])
-  @@index([type])
-  @@index([isPublished])
-}
-
-model EventRegistration {
-  id         String             @id @default(cuid())
-  eventId    String
-  userId     String
-  status     RegistrationStatus @default(CONFIRMED)
-  partnerName String?
-  notes      String?
-  createdAt  DateTime           @default(now())
-
-  event      Event              @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([eventId, userId])
-  @@index([userId, createdAt])
-  @@index([eventId, status])
-}
+  slug       
+... [truncated]
