@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum MembershipPlan {
@@ -97,5 +98,33 @@ model NewsletterSubscriber {
 
 model Event {
   id            String              @id @default(cuid())
-  slug       
-... [truncated]
+  slug          String              @unique
+  title         String
+  description   String?
+  type          EventType
+  startDate     DateTime
+  endDate       DateTime?
+  location      String?
+  capacity      Int?
+  registrations EventRegistration[]
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  @@index([startDate])
+  @@index([type])
+}
+
+model EventRegistration {
+  id        String             @id @default(cuid())
+  eventId   String
+  userId    String?
+  status    RegistrationStatus @default(CONFIRMED)
+  createdAt DateTime           @default(now())
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user  User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([eventId])
+  @@index([userId])
+  @@index([status])
+}
