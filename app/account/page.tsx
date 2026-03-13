@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import HeroSection from "@/components/HeroSection";
 import CTASection from "@/components/CTASection";
-import Card from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 export default function AccountPage() {
   return (
