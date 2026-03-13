@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate --schema=./prisma/schema.prisma && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate --schema=./prisma/schema.prisma || true"
   },
   "dependencies": {
     "next": "14.2.29",
@@ -48,5 +48,8 @@
     "postcss": "8.4.49",
     "autoprefixer": "10.4.20",
     "prisma": "*"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
   }
 }
