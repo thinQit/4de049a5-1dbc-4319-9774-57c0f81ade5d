@@ -1,67 +1,80 @@
 export const dynamic = 'force-dynamic';
 
-import HeroSection from "@/components/HeroSection";
-import GalleryGrid from "@/components/GalleryGrid";
+import HeroAurora from "@/components/HeroAurora";
 import TeamGrid from "@/components/TeamGrid";
-import FAQAccordion from "@/components/FAQAccordion";
+import GalleryMasonry from "@/components/GalleryMasonry";
+import SponsorLogos from "@/components/SponsorLogos";
 import CTASection from "@/components/CTASection";
 
 export default function ClubPage() {
   return (
-    <main>
-      <HeroSection />
-      <GalleryGrid />
-      <TeamGrid
-        headline="Coaching team"
-        subheadline="Structured sessions with clear progressions—from fundamentals to match play."
-        members={[
-          {
-            name: "Riya Patel",
-            title: "Head Coach",
-            bio: "ITF-certified coach focused on serve mechanics, footwork, and match patterns. Leads adult clinics and performance blocks.",
-            imageUrl: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1000,h_750,g_auto/v1/site-images/corporate/default.jpg",
-          },
-          {
-            name: "Kunal Mehta",
-            title: "Junior Program Lead",
-            bio: "Specializes in junior development, coordination, and confidence-building through game-based training.",
-            imageUrl: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1000,h_750,g_auto/v1/site-images/corporate/default.jpg",
-          },
-          {
-            name: "Sana Qureshi",
-            title: "Fitness & Mobility Coach",
-            bio: "Warm-up and recovery programming for tennis-specific movement, injury prevention, and conditioning.",
-            imageUrl: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_800,h_800,g_auto/v1/site-images/corporate/default.jpg",
-          },
-        ]}
-      />
-      <FAQAccordion
-        headline="Club policies & court etiquette"
-        subheadline="Simple rules that keep play fair and enjoyable."
-        items={[
-          {
-            question: "How does court booking work?",
-            answer:
-              "Members can book courts in advance based on their plan. Peak hours (6:30–9:30 PM) have a 60-minute limit to maximize access.",
-          },
-          {
-            question: "What should I bring?",
-            answer:
-              "Non-marking tennis shoes, a racquet, and water. Balls are provided for coached sessions; for casual play, players typically bring their own.",
-          },
-          {
-            question: "Are guests allowed?",
-            answer:
-              "Yes. Members can bring up to 2 guests per month. Guest fee is ₹150 per visit, subject to court availability.",
-          },
-          {
-            question: "Do you have junior batches?",
-            answer:
-              "Yes. Junior batches run Tue–Fri (5:00–7:00 PM) and Sat–Sun mornings. Placement is based on age and level.",
-          },
-        ]}
-      />
-      <CTASection />
+    <main className="bg-background text-foreground">
+      <div className="animate-fade-in-up">
+        <HeroAurora
+          badge="Club Overview"
+          title="A modern club built for consistent tennis"
+          subtitle="Facilities, coaching philosophy, and the community programs that keep Anand Tennis Club active all year."
+          primaryCta={{ label: "Membership Options", href: "/membership" }}
+          secondaryCta={{ label: "Contact the Club", href: "/contact" }}
+        />
+      </div>
+
+      <section className="py-20 md:py-28 bg-muted/30 animate-fade-in-up">
+        <div className="container mx-auto max-w-7xl px-4">
+          <TeamGrid
+            headline="Meet the coaching team"
+            subheadline="Sporty, structured training with match realism—serve patterns, return games, and point construction."
+            members={[
+              {
+                name: "Coach Riya Anand",
+                title: "Head Coach • Performance & Footwork",
+                imageUrl: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_800,g_auto/v1771577370/site-images/team-people/10375912.jpg",
+                bio: "Former collegiate No. 1 singles. Specializes in movement efficiency and first-strike tennis.",
+              },
+              {
+                name: "Miguel Santos",
+                title: "Assistant Coach • Doubles & Net Play",
+                imageUrl: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_800,g_auto/v1771577370/site-images/team-people/1181405.jpg",
+                bio: "Doubles specialist focused on positioning, poaching cues, and transition volleys.",
+              },
+              {
+                name: "Hannah Lee",
+                title: "Junior Program Lead",
+                imageUrl: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_800,g_auto/v1771577327/site-images/team-people/12899112.jpg",
+                bio: "Builds confident juniors through fundamentals, rally targets, and age-appropriate competition.",
+              },
+              {
+                name: "Dev Patel",
+                title: "Strength & Conditioning Partner",
+                imageUrl: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_800,g_auto/v1771577351/site-images/team-people/12903244.jpg",
+                bio: "On-court speed, agility, and injury-prevention programming tailored for tennis.",
+              },
+            ]}
+          />
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28 animate-fade-in-up">
+        <div className="container mx-auto max-w-7xl px-4">
+          <GalleryMasonry
+            headline="Facilities & amenities"
+            subheadline="Everything you need for training, match play, and recovery."
+            images={[
+              { url: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_800,g_auto/v1771576876/site-images/corporate/1181252.jpg", alt: "LED-lit evening tennis court" },
+              { url: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_800,g_auto/v1771576881/site-images/corporate/11901335.jpg", alt: "Ball machine lane training" },
+              { url: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_800,g_auto/v1771577698/site-images/hero-backgrounds/13551579.jpg", alt: "Clubhouse lounge interior" },
+              { url: "https://res.cloudinary.com/dwc294mzm/image/upload/c_fill,w_1200,h_800,g_auto/v1771576887/site-images/corporate/16553906.jpg", alt: "Pro shop equipment wall" },
+            ]}
+          />
+        </div>
+      </section>
+
+      <div className="animate-fade-in-up">
+        <SponsorLogos />
+      </div>
+      <div className="animate-fade-in-up">
+        <CTASection />
+      </div>
     </main>
   );
 }

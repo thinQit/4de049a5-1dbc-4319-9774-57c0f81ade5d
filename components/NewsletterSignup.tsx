@@ -1,108 +1,33 @@
 "use client";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 
-const playingLevelOptions = [
-  { label: "Beginner", value: "BEGINNER" },
-  { label: "Intermediate", value: "INTERMEDIATE" },
-  { label: "Advanced", value: "ADVANCED" },
-  { label: "Junior", value: "JUNIOR" },
-];
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface NewsletterSignupProps {
-  headline?: string;
+  headline: string;
   subheadline?: string;
-  ctaLabel?: string;
+  buttonLabel?: string;
 }
 
 export default function NewsletterSignup({
-  headline = "Subscribe",
-  subheadline = "Monthly club updates and coaching tips.",
-  ctaLabel = "Subscribe",
+  headline = "Get Event Updates First",
+  subheadline = "Subscribe for speaker drops, schedule updates, early-bird ticket windows, and VIP announcements.",
+  buttonLabel = "Subscribe",
 }: Partial<NewsletterSignupProps>) {
-  const [state, setState] = useState<"idle" | "success" | "error" | "submitting">("idle");
-  const [errorMsg, setErrorMsg] = useState("");
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setErrorMsg("");
-    setState("submitting");
-    const data = new FormData(e.currentTarget);
-    const body: Record<string, string> = {
-      email: data.get("email") as string,
-      name: (data.get("name") as string) || "",
-      playingLevel: (data.get("playingLevel") as string) || "",
-    };
-    try {
-      const res = await fetch("/api/newsletter/subscribe", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-      });
-      if (res.ok) {
-        setState("success");
-      } else {
-        const err = await res.json();
-        setErrorMsg(err?.error || "Subscription failed. Please try again.");
-        setState("error");
-      }
-    } catch {
-      setErrorMsg("Subscription failed. Please try again.");
-      setState("error");
-    }
-  }
-
   return (
-    <section className="py-20 md:py-28">
-      <div className="mx-auto max-w-lg px-4">
-        <h2 className="text-2xl font-bold mb-1">{headline}</h2>
-        <p className="mb-8 text-muted-foreground">{subheadline}</p>
-        <form
-          className="space-y-4 rounded-xl border p-6 bg-card"
-          onSubmit={handleSubmit}
-          aria-busy={state === "submitting"}
-        >
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" required type="email" autoComplete="email" />
-          </div>
-          <div>
-            <Label htmlFor="name">Name (optional)</Label>
-            <Input id="name" name="name" type="text" />
-          </div>
-          <div>
-            <Label htmlFor="playingLevel">Playing level (optional)</Label>
-            <select
-              id="playingLevel"
-              name="playingLevel"
-              className="block mt-1 rounded-md border px-3 py-2 w-full"
-              defaultValue=""
-            >
-              <option value="">Choose level</option>
-              {playingLevelOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <Button
-            className="bg-[#5B21B6] hover:bg-[#4a1ba0] w-full"
-            type="submit"
-            disabled={state === "submitting"}
-          >
-            {state === "submitting" ? "Subscribing..." : ctaLabel}
-          </Button>
-          {state === "success" && (
-            <p className="text-green-600 text-sm">You’re subscribed to the Anand Tennis Club newsletter.</p>
-          )}
-          {state === "error" && (
-            <p className="text-red-600 text-sm">{errorMsg || "Subscription failed. Please try again."}</p>
-          )}
-        </form>
-        <p className="mt-4 text-xs text-muted-foreground">No spam. Unsubscribe anytime.</p>
+    <section className="py-16 md:py-20 bg-muted/50">
+      <div className="container mx-auto max-w-2xl px-4 text-center">
+        <div className="animate-fade-in-up">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">{headline}</h2>
+          {subheadline && <p className="mt-3 text-muted-foreground">{subheadline}</p>}
+          <form className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-2">
+            <Input type="email" placeholder="Enter your email" className="flex-1" />
+            <Button type="submit" className="px-8 transition-all duration-200 hover:scale-105">
+              {buttonLabel}
+            </Button>
+          </form>
+          <p className="mt-3 text-xs text-muted-foreground">No spam. Unsubscribe anytime.</p>
+        </div>
       </div>
     </section>
   );

@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { newsletterSubscribeSchema } from "@/lib/validators";
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
+    const body = await req.json();
     const parsed = newsletterSubscribeSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -14,25 +14,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const subscription = await db.newsletterSubscription.upsert({
-      where: { email: parsed.data.email },
+    const subscriber = await db.newsletterSubscriber.upsert({
+      where: { email: parsed.data.email.toLowerCase() },
       update: {
-        name: parsed.data.name || null,
-        playingLevel: parsed.data.playingLevel ?? null,
+        interests: parsed.data.interests,
+        consent: parsed.data.consent,
       },
       create: {
-        email: parsed.data.email,
-        name: parsed.data.name || null,
-        playingLevel: parsed.data.playingLevel ?? null,
+        email: parsed.data.email.toLowerCase(),
+        interests: parsed.data.interests,
+        consent: parsed.data.consent,
       },
     });
 
-    return NextResponse.json(
-      { success: true, id: subscription.id, message: "Subscribed successfully." },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true, id: subscriber.id }, { status: 201 });
   } catch (error) {
     console.error("POST /api/newsletter/subscribe error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to subscribe" }, { status: 500 });
   }
 }

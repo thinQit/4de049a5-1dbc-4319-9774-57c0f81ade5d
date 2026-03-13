@@ -8,51 +8,50 @@ export interface CTA {
   href: string;
 }
 
-export interface EventItem {
-  id?: string;
-  date: string;
-  time: string;
-  title: string;
-  description: string;
-  tags?: string[];
-  cta?: CTA;
+export interface SectionBase {
+  id: string;
+  type: string;
+  headline: string;
+  subheadline?: string;
+  primaryCta?: CTA;
+  secondaryCta?: CTA;
 }
 
-export interface PricingTier {
-  name: string;
+export interface EventItem {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  type: string;
+  level: string;
   price: string;
-  period: string;
+  capacity: number;
+  location: string;
   description: string;
-  features: string[];
-  featured?: boolean;
   cta: CTA;
 }
 
-export interface Testimonial {
-  name: string;
-  role: string;
-  quote: string;
-}
-
-export interface ContactMessageInput {
+export interface ContactInquiry {
   fullName: string;
   email: string;
-  phone?: string;
   topic: string;
   message: string;
+  consent: boolean;
 }
 
-export interface MembershipRequestInput {
+export interface MembershipApplication {
   fullName: string;
   email: string;
   phone: string;
-  plan: string;
+  membershipPlan: string;
   playingLevel: string;
-  preferredTimes?: string[];
-  message?: string;
+  goals: string;
+  preferredStartDate?: string;
+  consent: boolean;
 }
 
-export interface NewsletterSubscriptionInput {
+export interface NewsletterSubscription {
   email: string;
-  name?: string;
+  interests?: string[];
+  consent: boolean;
 }

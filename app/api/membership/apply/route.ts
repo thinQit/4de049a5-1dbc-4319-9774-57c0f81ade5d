@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { membershipApplicationCreateSchema } from "@/lib/validators";
+import { getAuthSession } from "@/lib/auth";
+import { membershipApplicationSchema } from "@/lib/validators";
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
-    const parsed = membershipApplicationCreateSchema.safeParse(body);
+    const session = await getAuthSession();
+    const body = await req.json();
+    const parsed = membershipApplicationSchema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -14,24 +16,21 @@ export async function POST(request: Request) {
       );
     }
 
-    const application = await db.membershipApplication.create({
+    const created = await db.membershipApplication.create({
       data: {
-        fullName: parsed.data.fullName,
-        email: parsed.data.email,
-        phone: parsed.data.phone,
-        playingLevel: parsed.data.playingLevel,
-        preferredPlan: parsed.data.preferredPlan,
-        preferredTime: parsed.data.preferredTime,
-        notes: parsed.data.notes || null,
+        ...parsed.data,
+        preferredStartDate: parsed.data.preferredStartDate
+          ? new Date(parsed.data.preferredStartDate)
+          : null,
+        userId: (session?.user as { id?: string } | undefined)?.id ?? null,
       },
     });
 
-    return NextResponse.json(
-      { success: true, id: application.id, message: "Application submitted successfully." },
-      { status: 201 }
-    );
+    // Placeholder for internal notification/email integration
+
+    return NextResponse.json({ success: true, id: created.id }, { status: 201 });
   } catch (error) {
     console.error("POST /api/membership/apply error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to submit membership application" }, { status: 500 });
   }
 }

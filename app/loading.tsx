@@ -1,13 +1,7 @@
-import { Skeleton } from "@/components/ui/skeleton";
-
 export default function Loading() {
   return (
-    <main className="py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-4 space-y-4">
-        <Skeleton className="h-10 w-2/3" />
-        <Skeleton className="h-6 w-1/2" />
-        <Skeleton className="h-64 w-full" />
-      </div>
-    </main>
+    <div className="min-h-[60vh] flex items-center justify-center bg-background text-foreground">
+      <div className="animate-pulse text-lg">Loading Anand Tennis Club...</div>
+    </div>
   );
 }

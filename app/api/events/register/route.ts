@@ -1,18 +1,19 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
+import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
-import { authOptions } from "@/lib/auth";
+import { getAuthSession } from "@/lib/auth";
 import { eventRegisterSchema } from "@/lib/validators";
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getAuthSession();
+    const userId = (session?.user as { id?: string } | undefined)?.id;
 
-    if (!session?.user?.id) {
+    if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = await req.json();
     const parsed = eventRegisterSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -25,52 +26,71 @@ export async function POST(request: Request) {
     const result = await db.$transaction(async (tx) => {
       const event = await tx.event.findUnique({
         where: { id: parsed.data.eventId },
-        select: { id: true, capacity: true, startsAt: true },
+        select: { id: true, capacity: true, eventDate: true, isPublished: true },
       });
 
-      if (!event) {
-        return { error: "Event not found", status: 404 as const };
+      if (!event || !event.isPublished) {
+        throw new Error("EVENT_NOT_FOUND");
       }
 
-      if (event.startsAt < new Date()) {
-        return { error: "Event registration is closed", status: 400 as const };
+      const now = new Date();
+      if (event.eventDate < now) {
+        throw new Error("EVENT_CLOSED");
       }
 
-      const registrationsCount = await tx.eventRegistration.count({
-        where: { eventId: event.id },
+      const existing = await tx.eventRegistration.findUnique({
+        where: {
+          eventId_userId: {
+            eventId: parsed.data.eventId,
+            userId,
+          },
+        },
       });
 
-      if (registrationsCount >= event.capacity) {
-        return { error: "Event is full", status: 409 as const };
+      if (existing) {
+        throw new Error("ALREADY_REGISTERED");
       }
 
-      try {
-        const registration = await tx.eventRegistration.create({
-          data: {
-            userId: session.user.id,
-            eventId: event.id,
-          },
-          select: {
-            id: true,
-            eventId: true,
-            userId: true,
-            createdAt: true,
-          },
-        });
+      const confirmedCount = await tx.eventRegistration.count({
+        where: {
+          eventId: parsed.data.eventId,
+          status: "CONFIRMED",
+        },
+      });
 
-        return { registration, status: 201 as const };
-      } catch {
-        return { error: "Already registered for this event", status: 409 as const };
+      if (confirmedCount >= event.capacity) {
+        throw new Error("EVENT_FULL");
       }
-    });
 
-    if ("error" in result) {
-      return NextResponse.json({ error: result.error }, { status: result.status });
+      return tx.eventRegistration.create({
+        data: {
+          eventId: parsed.data.eventId,
+          userId,
+          partnerName: parsed.data.partnerName,
+          notes: parsed.data.notes,
+          status: "CONFIRMED",
+        },
+      });
+    }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+
+    return NextResponse.json({ success: true, registrationId: result.id }, { status: 201 });
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === "EVENT_NOT_FOUND") {
+        return NextResponse.json({ error: "Event not found" }, { status: 404 });
+      }
+      if (error.message === "EVENT_CLOSED") {
+        return NextResponse.json({ error: "Event registration is closed" }, { status: 400 });
+      }
+      if (error.message === "ALREADY_REGISTERED") {
+        return NextResponse.json({ error: "You are already registered for this event" }, { status: 409 });
+      }
+      if (error.message === "EVENT_FULL") {
+        return NextResponse.json({ error: "Event capacity reached" }, { status: 409 });
+      }
     }
 
-    return NextResponse.json({ success: true, registration: result.registration }, { status: 201 });
-  } catch (error) {
     console.error("POST /api/events/register error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to register for event" }, { status: 500 });
   }
 }

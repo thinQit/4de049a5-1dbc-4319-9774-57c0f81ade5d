@@ -1,66 +1,55 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
-import NavbarSticky from "@/components/NavbarSticky";
-import FooterMultiColumn from "@/components/FooterMultiColumn";
+import { Syne, Space_Grotesk } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk" });
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
-  title: "Anand Tennis Club | Wimbledon-Green Tennis Community in Anand",
+  title: "Anand Tennis Club | Wimbledon-inspired tennis, events & membership",
   description:
-    "Anand Tennis Club is a modern tennis community in Anand, Gujarat—coaching, ladders, socials, and tournaments. Join membership plans and register for events online.",
+    "Anand Tennis Club is a modern tennis club with coached sessions, monthly tournaments, ladders, and community doubles nights. Join membership, register for events, and get monthly updates.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-        <NavbarSticky
-          logo="Anand Tennis Club"
+      <body className={`${syne.variable} ${spaceGrotesk.variable} font-sans bg-background text-foreground`}>
+        <Navbar
+          brandName="Anand Tennis Club"
           navItems={[
             { label: "Home", href: "/" },
-            { label: "Events", href: "/events" },
             { label: "Club Overview", href: "/club" },
+            { label: "Events", href: "/events" },
             { label: "Membership", href: "/membership" },
             { label: "Blog", href: "/blog" },
             { label: "Contact", href: "/contact" },
+            { label: "Newsletter", href: "/newsletter" },
           ]}
-          ctaLabel="Join Now"
+          ctaLabel="Become a Member"
           ctaHref="/membership"
         />
         {children}
-        <FooterMultiColumn
-          brand="Anand Tennis Club"
-          description="Play better. Belong here. Join Anand Tennis Club for coaching, events, ladders, and a vibrant tennis community in Anand."
-          columns={[
-            {
-              title: "Explore",
-              links: [
-                { label: "Home", href: "/" },
-                { label: "Events", href: "/events" },
-                { label: "Club Overview", href: "/club" },
-              ],
-            },
-            {
-              title: "Membership",
-              links: [
-                { label: "Plans", href: "/membership" },
-                { label: "Account", href: "/account" },
-                { label: "Newsletter", href: "/newsletter" },
-              ],
-            },
-            {
-              title: "Contact",
-              links: [
-                { label: "Contact Form", href: "/contact" },
-                { label: "Directions", href: "https://maps.google.com/?q=Anand%20Tennis%20Club%2C%20University%20Road%2C%20Anand%20388001" },
-                { label: "WhatsApp", href: "https://wa.me/919876543210" },
-              ],
-            },
-          ]}
-          copyright="© 2026 Anand Tennis Club. All rights reserved."
+        <Footer
+          clubName="Anand Tennis Club"
+          email="hello@anandtennisclub.com"
+          phone="+1 (415) 019-2046"
+          address="14 Centre Court Lane, Anand Park, CA 94016"
         />
       </body>
     </html>
